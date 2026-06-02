@@ -246,7 +246,7 @@
             <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Продолжить путь ➔</button>
         </div>
 
-        <!-- ШАГ 7: ВИДЕО И КВИЗ (С ПРИНУДИТЕЛЬНЫМ КОРРЕКТНЫМ АВТОЗАПУСКОМ) -->
+        <!-- ШАГ 7: ВИДЕО И ОПРОСНИК ПРО НЕЕ (ОБНОВЛЕННЫЙ) -->
         <div id="step-7" class="step hidden">
             <h2 class="text-xl font-bold mb-4 text-rose-600">Открываем дверь в новый мир...</h2>
             
@@ -263,13 +263,14 @@
                 🔇 Включить звук
             </button>
 
+            <!-- Полностью переработанный опросник: Детектор суперсилы -->
             <div class="border-t border-stone-100 pt-4">
-                <h3 class="font-bold text-stone-700 text-sm mb-2">Шуточный детектор правды: насколько хорошо ты меня знаешь?</h3>
-                <p class="text-xs text-stone-500 mb-4">Какой напиток я чаще всего выбираю при наших встречах?</p>
+                <h3 class="font-bold text-stone-700 text-sm mb-2">✨ Детектор твоей главной суперсилы</h3>
+                <p class="text-xs text-stone-500 mb-4">Какое твоё качество, на твой взгляд, делает окружающий мир чуточку лучше каждый день?</p>
                 <div class="space-y-2">
-                    <button onclick="checkAnswer(this, false)" class="w-full py-2 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition">Просто воду</button>
-                    <button onclick="checkAnswer(this, true)" class="w-full py-2 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition">Тот самый кофе / чай, который мы обсуждали ☕</button>
-                    <button onclick="checkAnswer(this, false)" class="w-full py-2 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition">Газировку</button>
+                    <button onclick="checkHerSuperpower(this, 'Абсолютно верно! Твоя искренность и открытая душа притягивают людей как магнит. Но на самом деле в тебе скрыто гораздо больше! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твоя редкая искренность и открытость</button>
+                    <button onclick="checkHerSuperpower(this, 'Именно! Твое чувство юмора и легкая улыбка способны осветить любой хмурый день. Но это лишь малая часть твоего очарования! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твое чувство юмора и умение дарить радость</button>
+                    <button onclick="checkHerSuperpower(this, 'Да! Твоя целеустремленность и острый ум по-настоящему восхищают. Но за этим стержнем скрывается еще и невероятная нежность! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твоя целеустремленность и внутренний стержень</button>
                 </div>
             </div>
             <button onclick="nextStep(8)" class="mt-6 w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Перейти к финалу ✨</button>
@@ -428,7 +429,7 @@
         // Эффект печатной машинки
         function startTypewriter() {
             nextStep(5);
-            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я безумно рад твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром. Пусть этот день станет началом самого счастливого года в твоей жизни, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
+            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я безумно рад нашему теплому общению, твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром. Пусть этот день станет началом самого счастливого года в твоей жизни, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
             const container = document.getElementById('typewriter');
             let index = 0;
             container.innerHTML = '';
@@ -508,25 +509,33 @@
             displayCard.scrollTop = displayCard.scrollHeight;
         }
 
-        // Квиз
-        function checkAnswer(btn, isCorrect) {
-            if (isCorrect) {
-                btn.classList.remove('bg-stone-50');
-                btn.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-700');
-                confetti({ particleCount: 40 });
-                alert("Точно! Рад, что ты помнишь такие детали 😊");
-            } else {
-                btn.classList.remove('bg-stone-50');
-                btn.classList.add('bg-stone-100', 'border-stone-300', 'text-stone-500');
-                alert("Хм, почти угадала, но правильный вариант чуть интереснее 😉");
-            }
+        // Опросник суперсил (Детектор качества девушки)
+        function checkHerSuperpower(btn, message) {
+            // Сбрасываем стили у всех кнопок в этом блоке
+            const parent = btn.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(b => {
+                b.classList.remove('bg-rose-50', 'border-rose-300', 'text-rose-700');
+                b.classList.add('bg-stone-50', 'text-stone-700', 'border-stone-200');
+            });
+
+            // Подсвечиваем выбранную
+            btn.classList.remove('bg-stone-50', 'text-stone-700', 'border-stone-200');
+            btn.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-700');
+
+            confetti({ 
+                particleCount: 55,
+                spread: 60,
+                origin: { y: 0.8 }
+            });
+            alert(message);
         }
 
         // Отправка результатов в WhatsApp
         function sendToWhatsApp(event) {
             event.preventDefault();
             
-            // Замените этот номер на свой (без плюса, например 77071234567 для Казахстана)
+            // Вставьте свой номер телефона (без плюса, например 77071234567 для Казахстана)
             const myPhoneNumber = "77071234567"; 
 
             const dayChoice = document.getElementById('day-choice').value;
