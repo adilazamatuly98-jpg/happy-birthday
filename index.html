@@ -138,19 +138,16 @@
             <button id="after-typewriter-btn" onclick="nextStep(6)" class="py-3 px-6 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition hidden">Посмотреть, что дальше ➔</button>
         </div>
 
-        <!-- ШАГ 6: МАГИЧЕСКИЙ ШАР И КОМПЛИМЕНТЫ (ОБНОВЛЕННЫЙ, ДИНАМИЧЕСКИЙ) -->
+        <!-- ШАГ 6: МАГИЧЕСКИЙ ШАР И КОМПЛИМЕНТЫ -->
         <div id="step-6" class="step hidden">
             <h2 class="text-2xl font-bold mb-2 text-rose-600">Что ждет тебя в твои 22?</h2>
             <p class="text-stone-500 text-xs mb-6">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
             
-            <!-- Интерактивный вибрирующий шар -->
             <div id="magic-ball" onclick="askMagicBall()" class="w-24 h-24 rounded-full mx-auto flex items-center justify-center text-4xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-indigo-950 bg-gradient-to-tr from-indigo-950 via-purple-900 to-indigo-800 text-white relative">
                 <span class="relative z-10">🔮</span>
-                <!-- Световой пульсирующий контур вокруг шара -->
                 <div class="absolute inset-0 rounded-full bg-indigo-500 opacity-20 blur-md animate-pulse"></div>
             </div>
             
-            <!-- Контейнер для вывода предсказаний -->
             <div id="ball-result" class="mb-8 min-h-[50px] flex items-center justify-center">
                 <p class="text-stone-400 text-xs italic">Шар ожидает твоего касания...</p>
             </div>
@@ -158,7 +155,6 @@
             <p class="text-stone-600 text-xs font-semibold mb-2">Лопай парящие пузыри комплиментов! 🫧</p>
             <p class="text-stone-400 text-[10px] mb-6">Каждый пузырь хранит твою суперсилу</p>
             
-            <!-- Парящие пузыри комплиментов -->
             <div class="flex justify-center gap-3 mb-6 relative min-h-[80px]">
                 <div onclick="popBubble(event, this, 'Твой смех мгновенно поднимает мне настроение и меняет день вокруг 🌸')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-rose-100/70 border border-rose-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">
                     🫧💖
@@ -174,10 +170,7 @@
                 </div>
             </div>
 
-            <!-- Контейнер, куда будут сыпаться открытые комплименты на самом экране -->
-            <div id="compliment-display" class="hidden text-left space-y-2 mb-8 max-h-[150px] overflow-y-auto p-2 bg-stone-50 rounded-2xl border border-stone-100">
-                <!-- Сюда JS будет динамически добавлять текст открытых комплиментов -->
-            </div>
+            <div id="compliment-display" class="hidden text-left space-y-2 mb-8 max-h-[150px] overflow-y-auto p-2 bg-stone-50 rounded-2xl border border-stone-100"></div>
 
             <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Продолжить путь ➔</button>
         </div>
@@ -201,29 +194,44 @@
             <button onclick="nextStep(8)" class="mt-6 w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Перейти к финалу ✨</button>
         </div>
 
-        <!-- ШАГ 8: ОПРОСНИК (ФИНАЛ) -->
+        <!-- ШАГ 8: ОПРОСНИК (ОБНОВЛЕННЫЙ ФИНАЛ) -->
         <div id="step-8" class="step hidden">
             <h2 class="text-2xl font-bold mb-2 text-rose-600">Давай отпразднуем? 🗺️</h2>
-            <p class="text-stone-500 text-xs mb-6">Я бы очень хотел пригласить тебя провести этот праздничный день вместе. Выбери вариант, который тебе по душе:</p>
+            <p class="text-stone-500 text-xs mb-6">Я бы очень хотел пригласить тебя провести этот праздничный день вместе. Выбери наиболее удобные для тебя варианты:</p>
             
             <form id="celebration-form" onsubmit="sendToWhatsApp(event)" class="space-y-4 text-left">
+                <!-- Выбор дня недели -->
                 <div>
-                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Где бы ты хотела провести время?</label>
-                    <select id="option" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
-                        <option>Приятный ужин в уютном заведении 🍽️</option>
-                        <option>Небольшая прогулка-сюрприз по красивым местам 🏞️</option>
-                        <option>Поход в кино или на интересное событие 🍿</option>
-                        <option>Твой собственный сценарий (расскажешь мне) 🤫</option>
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Какой день тебе больше подходит?</label>
+                    <select id="day-choice" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+                        <option>Пятница 📅</option>
+                        <option>Суббота 📅</option>
+                        <option>Воскресенье 📅</option>
                     </select>
                 </div>
+
+                <!-- Выбор места прогулки (Ваши варианты) -->
                 <div>
-                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Удобное время встречи (в формате 24ч):</label>
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Куда бы ты хотела отправиться?</label>
+                    <select id="option" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+                        <option>Выставка Леонардо да Винчи 🎨</option>
+                        <option>Кино-ресторан 🎬🍿</option>
+                        <option>Ужин в ресторане 🍽️</option>
+                    </select>
+                </div>
+
+                <!-- Выбор времени в формате 24ч -->
+                <div>
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Примерное время встречи (в формате 24ч):</label>
                     <input type="time" id="time" value="18:30" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
                 </div>
+
+                <!-- Пожелания -->
                 <div>
-                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Пожелания, предпочтения по кухне или капризы:</label>
-                    <textarea id="notes" placeholder="Например: хочу сладкое, или предпочтения по цветам..." rows="2" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300"></textarea>
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Особые пожелания или капризы:</label>
+                    <textarea id="notes" placeholder="Например: хочу сладкую вату, попкорн или определенные цветы..." rows="2" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300"></textarea>
                 </div>
+
                 <button type="submit" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Поделиться планами на вечер! 💌</button>
             </form>
         </div>
@@ -292,12 +300,11 @@
             setTimeout(type, 300);
         }
 
-        // ДИНАМИЧЕСКИЙ МАГИЧЕСКИЙ ШАР (ВИБРАЦИЯ + СТРЕЛЬБА КОНФЕТТИ)
+        // Динамический магический шар
         function askMagicBall() {
             const ball = document.getElementById('magic-ball');
             const resultDiv = document.getElementById('ball-result');
             
-            // Запуск анимации тряски
             ball.classList.add('animate-shake');
             resultDiv.innerHTML = `<p class="text-indigo-400 text-xs animate-pulse">Шар считывает твою энергетику... ⚡</p>`;
             
@@ -311,14 +318,12 @@
                 ];
                 const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
                 
-                // Вывод результата в красивой плашке с анимацией прыжка
                 resultDiv.innerHTML = `
                     <div class="bg-indigo-50 text-indigo-950 border border-indigo-100 rounded-2xl p-3 text-xs font-semibold animate-bounce shadow-inner w-full">
                         ${randomPrediction}
                     </div>
                 `;
                 
-                // Небольшой салют конфетти по центру
                 confetti({
                     particleCount: 20,
                     angle: 90,
@@ -328,13 +333,11 @@
             }, 800);
         }
 
-        // ЛОПАНИЕ ПУЗЫРЯ (ФИЗИКА И ВЗРЫВ КОНФЕТТИ НА МЕСТЕ КЛИКА)
+        // Лопание пузыря комплиментов
         function popBubble(event, element, complimentText) {
-            // Вычисляем координаты клика мыши относительно всего экрана для взрыва конфетти
             const x = event.clientX / window.innerWidth;
             const y = event.clientY / window.innerHeight;
             
-            // Взрыв конфетти точно в месте лопания пузыря
             confetti({
                 particleCount: 25,
                 spread: 40,
@@ -342,15 +345,13 @@
                 colors: ['#f43f5e', '#fda4af', '#fecdd3', '#c084fc']
             });
 
-            // Эффект расширения и растворения (схлопывание пузыря)
             element.classList.add('scale-150', 'opacity-0');
-            element.style.pointerEvents = 'none'; // Отключаем повторные клики
+            element.style.pointerEvents = 'none';
 
             setTimeout(() => {
                 element.style.display = 'none';
             }, 300);
 
-            // Плавное добавление комплимента в контейнер на экране
             const displayCard = document.getElementById('compliment-display');
             displayCard.classList.remove('hidden');
             
@@ -359,7 +360,6 @@
             newMsg.innerHTML = `<span>✨</span> <span>${complimentText}</span>`;
             displayCard.appendChild(newMsg);
             
-            // Автоматическая прокрутка контейнера вниз при получении новых комплиментов
             displayCard.scrollTop = displayCard.scrollHeight;
         }
 
@@ -377,22 +377,25 @@
             }
         }
 
-        // Отправка в WhatsApp
+        // Отправка результатов в WhatsApp
         function sendToWhatsApp(event) {
             event.preventDefault();
             
-            // Ваш номер (без плюса)
+            // Замените этот номер на свой (без плюса, например 77071234567)
             const myPhoneNumber = "77071234567"; 
 
+            const dayChoice = document.getElementById('day-choice').value;
             const option = document.getElementById('option').value;
             const time = document.getElementById('time').value;
             const notes = document.getElementById('notes').value;
 
-            const text = `Привет! Прошла твой квест на день рождения ✨\n\n` + 
-                         `Вот что мне больше по душе:\n` +
-                         `📍 Формат встречи: ${option}\n` +
-                         `⏰ Время встречи: ${time}\n` +
-                         `💭 Мои пожелания: ${notes || 'Особых нет, главное — встретиться!'}`;
+            // Формируем красивое текстовое сообщение для мессенджера
+            const text = `Привет! Прошла твой праздничный квест ✨\n\n` + 
+                         `Вот мои пожелания по встрече:\n` +
+                         `📅 Удобный день: ${dayChoice}\n` +
+                         `📍 Куда сходим: ${option}\n` +
+                         `⏰ Примерное время: ${time}\n` +
+                         `💭 Особые пожелания: ${notes || 'Особых капризов нет, жду встречи!'}`;
 
             const encodedText = encodeURIComponent(text);
             const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${encodedText}`;
