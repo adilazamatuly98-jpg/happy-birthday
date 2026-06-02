@@ -3,614 +3,424 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>С Днем Рождения!</title>
+<title>С Днем Рождения! ✨</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<!-- Howler.js — лучшая iOS-совместимая аудио-библиотека -->
-<script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-body{font-family:"DM Sans",sans-serif}
-h1,h2,h3{font-family:"Playfair Display",serif}
-.gtitle{background:linear-gradient(135deg,#f43f5e,#ec4899,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-@keyframes petalPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 10px rgba(244,63,94,.5))}50%{transform:scale(1.11);filter:drop-shadow(0 0 28px rgba(244,63,94,.9))}}
-.pulse-petal{animation:petalPulse 2.6s ease-in-out infinite}
-@keyframes vinylSpin{to{transform:rotate(360deg)}}
-.vinyl-spin{animation:vinylSpin 7s linear infinite}
-.vinyl-spin.paused{animation-play-state:paused}
-@keyframes stepIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.step-in{animation:stepIn .45s cubic-bezier(.22,.68,0,1.2)}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.tw-cur{display:inline-block;width:2px;height:1.15em;background:#f43f5e;margin-left:2px;vertical-align:text-bottom;border-radius:2px;animation:blink 1s step-end infinite}
-@keyframes shake{0%,100%{transform:translate(0,0) rotate(0)}10%{transform:translate(-3px,-3px) rotate(-2deg)}25%{transform:translate(-5px,1px) rotate(2deg)}40%{transform:translate(3px,3px) rotate(-1deg)}55%{transform:translate(-2px,-2px) rotate(1deg)}70%{transform:translate(4px,2px) rotate(2deg)}85%{transform:translate(-3px,3px) rotate(-2deg)}}
-.do-shake{animation:shake .65s ease-in-out}
-@keyframes bba{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px) translateX(5px)}}
-@keyframes bbb{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px) translateX(-7px)}}
-.fb1{animation:bba 4s ease-in-out infinite}
-.fb2{animation:bbb 3.6s ease-in-out infinite}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-.fade-up{animation:fadeUp .4s ease-out forwards}
-@keyframes ballGlow{0%,100%{box-shadow:0 0 14px rgba(99,102,241,.45),0 0 28px rgba(99,102,241,.2)}50%{box-shadow:0 0 32px rgba(99,102,241,.85),0 0 60px rgba(99,102,241,.4)}}
-.ball-glow{animation:ballGlow 2.2s ease-in-out infinite}
-.btn-shim{position:relative;overflow:hidden}
-.btn-shim::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-15deg)}
-.btn-shim:hover::after{animation:shimRun .6s ease-out}
-@keyframes shimRun{to{left:130%}}
-@keyframes progShim{0%{transform:translateX(-150%)}100%{transform:translateX(250%)}}
-#prog-bar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:progShim 1.8s ease-in-out infinite}
-@keyframes floatUp{0%{transform:translateY(0) scale(1) rotate(0deg);opacity:.85}80%{opacity:.4}100%{transform:translateY(-105vh) scale(.3) rotate(330deg);opacity:0}}
-@keyframes hbBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.15)}70%{transform:scale(1)}}
-.heartbeat{animation:hbBeat 1.4s ease-in-out infinite}
-/* Howler player styles */
-.prog-rail{height:5px;background:#e7e5e4;border-radius:10px;cursor:pointer;position:relative;touch-action:none}
-.prog-fill{height:100%;background:linear-gradient(to right,#f43f5e,#fb923c);border-radius:10px;width:0%;position:relative;transition:width .08s linear}
-.prog-thumb{position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;background:#f43f5e;border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.2);opacity:0;transition:opacity .2s}
-.prog-rail:hover .prog-thumb,.prog-rail:active .prog-thumb{opacity:1}
-.sdot{width:8px;height:8px;border-radius:50%;background:#fecdd3;transition:all .3s;flex-shrink:0}
-.sdot.done{background:#fb7185}.sdot.active{background:#f43f5e;transform:scale(1.55)}
-.cscroll::-webkit-scrollbar{width:4px}
-.cscroll::-webkit-scrollbar-track{background:#f5f5f4;border-radius:10px}
-.cscroll::-webkit-scrollbar-thumb{background:#f43f5e;border-radius:10px}
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:420px;background:linear-gradient(135deg,#f43f5e,#ec4899);color:#fff;font-size:.75rem;font-weight:600;padding:14px 16px;border-radius:18px;box-shadow:0 8px 32px rgba(244,63,94,.35);z-index:9999;display:flex;gap:10px;align-items:flex-start}
-*{-webkit-tap-highlight-color:transparent}
-button{cursor:pointer}
-button:active{transform:scale(.95)}
-#particle-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  @keyframes pulse-slow { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+  .pulse-heart { animation: pulse-slow 2.5s infinite; }
+  @keyframes spin-slow { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+  .spin-vinyl { animation: spin-slow 8s infinite linear; }
+  @keyframes shake {
+    0%,100% { transform: translate(0,0) rotate(0); }
+    10% { transform: translate(-2px,-2px) rotate(-1deg); }
+    20% { transform: translate(-4px,0) rotate(1deg); }
+    30% { transform: translate(0,3px) rotate(0); }
+    40% { transform: translate(2px,-1px) rotate(1deg); }
+    50% { transform: translate(-1px,3px) rotate(-1deg); }
+    60% { transform: translate(-4px,1px) rotate(0); }
+    70% { transform: translate(3px,2px) rotate(-1deg); }
+    80% { transform: translate(-2px,-1px) rotate(1deg); }
+    90% { transform: translate(3px,3px) rotate(0); }
+  }
+  .animate-shake { animation: shake .6s ease-in-out; }
+  @keyframes bf1 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-12px) translateX(5px)} }
+  @keyframes bf2 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-8px) translateX(-6px)} }
+  .float-bubble-1 { animation: bf1 4s infinite ease-in-out; }
+  .float-bubble-2 { animation: bf2 3.5s infinite ease-in-out; }
+  @keyframes fadeInScale { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
+  .animate-fade-in { animation: fadeInScale .4s forwards ease-out; }
+  .custom-scroll::-webkit-scrollbar { width: 4px; }
+  .custom-scroll::-webkit-scrollbar-track { background: #f5f5f4; border-radius: 10px; }
+  .custom-scroll::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 10px; }
+  * { -webkit-tap-highlight-color: transparent; }
+  /* Лёгкое улучшение нативного аудио на десктопе */
+  audio { width: 100%; }
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #f43f5e; color: #fff; padding: 12px 18px;
+    border-radius: 14px; font-size: 13px; font-weight: 600;
+    box-shadow: 0 8px 28px rgba(244,63,94,.35); z-index: 9999;
+    max-width: calc(100% - 32px); text-align: center;
+  }
 </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4"
-      style="background:radial-gradient(ellipse at 20% 20%,#fff0f3 0%,#fff8ff 50%,#f0f4ff 100%)">
+<body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex items-center justify-center p-4">
 
-<div id="particle-layer"></div>
+  <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden p-6 md:p-8 border border-rose-100 text-center relative">
 
-<div class="max-w-md w-full bg-white rounded-3xl border border-rose-100 text-center relative z-10"
-     style="box-shadow:0 25px 60px rgba(244,63,94,.12),0 8px 24px rgba(0,0,0,.06)">
-
-  <div id="step-dots" class="items-center justify-center gap-2 pt-5 px-6 pb-1" style="display:none"></div>
-
-  <div class="p-6 md:p-8">
-
-  <!-- STEP 1 -->
-  <div id="step-1" class="step step-in">
-    <div class="flex justify-center mb-6">
-      <div id="heart-icon" class="text-8xl pulse-petal select-none cursor-pointer leading-none">🌸</div>
+    <!-- ШАГ 1 -->
+    <div id="step-1" class="step">
+      <div class="flex justify-center mb-6">
+        <div id="heart-icon" class="text-rose-400 text-8xl pulse-heart cursor-pointer hover:text-rose-500 transition">🌸</div>
+      </div>
+      <h1 class="text-2xl font-bold mb-2 text-rose-600">Кое-что особенное для тебя...</h1>
+      <p class="text-stone-500 text-sm mb-6">Нажми на цветок, чтобы открыть это поздравление</p>
+      <div class="w-full bg-stone-100 rounded-full h-2 mb-6 hidden" id="progress-container">
+        <div class="bg-rose-400 h-2 rounded-full transition-all duration-300" id="progress-bar" style="width: 0%"></div>
+      </div>
+      <div id="progress-text" class="text-rose-500 font-semibold text-sm hidden">0%</div>
     </div>
-    <h1 class="text-2xl font-bold mb-2 gtitle">Кое-что особенное для тебя...</h1>
-    <p class="text-stone-400 text-sm mb-7">Нажми на цветок, чтобы открыть это поздравление</p>
-    <div class="w-full bg-stone-100 rounded-full h-3 mb-3 hidden overflow-hidden relative" id="prog-wrap">
-      <div id="prog-bar" class="h-full rounded-full relative overflow-hidden"
-           style="width:0%;background:linear-gradient(90deg,#f43f5e,#fb7185,#fda4af)"></div>
-    </div>
-    <div id="prog-txt" class="text-rose-500 font-bold text-sm hidden">0%</div>
-  </div>
 
-  <!-- STEP 2 -->
-  <div id="step-2" class="step hidden">
-    <div class="text-5xl mb-5">🎉</div>
-    <h2 class="text-2xl font-bold mb-3 gtitle">Готова к сюрпризу? 😊</h2>
-    <p class="text-stone-500 text-sm mb-8">Этот сайт создан специально для тебя.<br>Готова сделать первый шаг?</p>
-    <div class="space-y-3">
-      <button onclick="nextStep(3)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md text-sm">
-        Да, мне очень интересно! ✨
-      </button>
-      <button onclick="showToast('Ничего страшного, я подожду. Нажми, когда будешь готова ☕')"
-              class="w-full py-3.5 bg-stone-100 text-stone-500 rounded-xl font-semibold hover:bg-stone-200 transition text-sm">
-        Мне нужно немного времени
-      </button>
-    </div>
-  </div>
-
-  <!-- STEP 3 — HOWLER.JS PLAYLIST -->
-  <div id="step-3" class="step hidden">
-    <div class="flex justify-center mb-4">
-      <div id="vinyl" class="w-20 h-20 bg-stone-900 rounded-full flex items-center justify-center border-4 border-rose-100 vinyl-spin paused shadow-lg">
-        <div class="w-6 h-6 bg-white rounded-full border-2 border-stone-300"></div>
+    <!-- ШАГ 2 -->
+    <div id="step-2" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4 text-rose-600">Готова ли ты к сюрпризу? 😊</h2>
+      <p class="text-stone-600 text-sm mb-8">Этот сайт создан специально для тебя. Готова сделать первый шаг?</p>
+      <div class="space-y-3">
+        <button onclick="nextStep(3)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-sm">Да, мне очень интересно! ✨</button>
+        <button onclick="showToast('Ничего страшного, я подожду. Нажми, когда будешь готова ☕')" class="w-full py-3 bg-stone-100 text-stone-500 rounded-xl font-semibold hover:bg-stone-200 transition">Мне нужно немного времени</button>
       </div>
     </div>
-    <h2 class="text-xl font-bold mb-1 gtitle">Музыка твоего момента 🎧</h2>
-    <p class="text-stone-400 text-xs mb-5">Собрал плейлист, который ассоциируется у меня с тобой:</p>
 
-    <div id="playlist" class="space-y-2.5 mb-6 max-h-72 overflow-y-auto pr-1 cscroll">
-      <!-- Карточки генерируются через buildPlaylist() -->
-    </div>
-
-    <button onclick="nextStep(4)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
-      Идти дальше ➔
-    </button>
-  </div>
-
-  <!-- STEP 4 -->
-  <div id="step-4" class="step hidden">
-    <h2 class="text-xl font-bold mb-5 gtitle">Как мир видит тебя VS Как вижу тебя я</h2>
-    <div class="grid grid-cols-2 gap-3 mb-6">
-      <div>
-        <div class="bg-stone-100 rounded-2xl w-full h-44 flex flex-col items-center justify-center gap-2 shadow-inner">
-          <span class="text-4xl">🌍</span>
-          <span class="text-[10px] text-stone-400 font-semibold tracking-widest uppercase">Взгляд мира</span>
+    <!-- ШАГ 3 — ПЛЕЙЛИСТ -->
+    <div id="step-3" class="step hidden">
+      <div class="flex justify-center mb-4">
+        <div class="w-20 h-20 bg-stone-900 rounded-full flex items-center justify-center border-4 border-rose-100 spin-vinyl shadow-md">
+          <div class="w-6 h-6 bg-white rounded-full"></div>
         </div>
-        <p class="text-[11px] text-stone-500 mt-2 leading-relaxed">Просто красивая девушка</p>
       </div>
-      <div>
-        <div class="rounded-2xl w-full h-44 flex flex-col items-center justify-center gap-2 shadow-sm border border-rose-100"
-             style="background:linear-gradient(135deg,#fff1f2,#fce7f3)">
-          <span class="text-4xl">💖</span>
-          <span class="text-[10px] text-rose-400 font-semibold tracking-widest uppercase">Мой взгляд</span>
+      <h2 class="text-xl font-bold mb-2 text-rose-600">Музыка твоего момента 🎧</h2>
+      <p class="text-stone-500 text-xs mb-4">Собрал небольшой плейлист, который ассоциируется у меня с тобой. Включи любой трек для настроения:</p>
+
+      <div class="space-y-3 mb-6 text-left max-h-[260px] overflow-y-auto pr-1 custom-scroll">
+
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-stone-700 truncate">Хочу быть рядом</p>
+              <p class="text-[10px] text-stone-400 truncate">Rusty</p>
+            </div>
+            <button onclick="restartAudio('audio-1')" class="text-[10px] bg-rose-50 text-rose-500 hover:bg-rose-100 px-2 py-1 rounded-lg transition font-semibold shrink-0">↺ С начала</button>
+          </div>
+          <audio id="audio-1" controls preload="none" src="track1.mp3"></audio>
         </div>
-        <p class="text-[11px] text-rose-600 mt-2 font-semibold leading-relaxed">Моё вдохновение и главная загадка ✨</p>
+
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-stone-700 truncate">Привет</p>
+              <p class="text-[10px] text-stone-400 truncate">Комната культуры</p>
+            </div>
+            <button onclick="restartAudio('audio-2')" class="text-[10px] bg-rose-50 text-rose-500 hover:bg-rose-100 px-2 py-1 rounded-lg transition font-semibold shrink-0">↺ С начала</button>
+          </div>
+          <audio id="audio-2" controls preload="none" src="track2.mp3"></audio>
+        </div>
+
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-stone-700 truncate">Космосом</p>
+              <p class="text-[10px] text-stone-400 truncate">М. Князев &amp; В. Копылова</p>
+            </div>
+            <button onclick="restartAudio('audio-3')" class="text-[10px] bg-rose-50 text-rose-500 hover:bg-rose-100 px-2 py-1 rounded-lg transition font-semibold shrink-0">↺ С начала</button>
+          </div>
+          <audio id="audio-3" controls preload="none" src="track3.mp3"></audio>
+        </div>
+
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-stone-700 truncate">О ней</p>
+              <p class="text-[10px] text-stone-400 truncate">Фарик Назарбаев</p>
+            </div>
+            <button onclick="restartAudio('audio-4')" class="text-[10px] bg-rose-50 text-rose-500 hover:bg-rose-100 px-2 py-1 rounded-lg transition font-semibold shrink-0">↺ С начала</button>
+          </div>
+          <audio id="audio-4" controls preload="none" src="track4.mp3"></audio>
+        </div>
+
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-stone-700 truncate">Голоса</p>
+              <p class="text-[10px] text-stone-400 truncate">Звонкий</p>
+            </div>
+            <button onclick="restartAudio('audio-5')" class="text-[10px] bg-rose-50 text-rose-500 hover:bg-rose-100 px-2 py-1 rounded-lg transition font-semibold shrink-0">↺ С начала</button>
+          </div>
+          <audio id="audio-5" controls preload="none" src="track5.mp3"></audio>
+        </div>
+
       </div>
+
+      <button onclick="nextStep(4)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Идти дальше ➔</button>
     </div>
-    <button onclick="startTypewriter()" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
-      Прочитать поздравление ✨
-    </button>
+
+    <!-- ШАГ 4 -->
+    <div id="step-4" class="step hidden">
+      <h2 class="text-xl font-bold mb-4 text-rose-600">Как мир видит тебя VS Как вижу тебя я</h2>
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <div class="bg-rose-100 rounded-xl shadow-md w-full h-44 flex items-center justify-center text-4xl">🌍</div>
+          <p class="text-[11px] text-stone-500 mt-2">Как видит тебя мир:<br><span class="font-semibold">Просто красивая девушка</span></p>
+        </div>
+        <div>
+          <div class="bg-rose-50 rounded-xl shadow-md w-full h-44 flex items-center justify-center text-4xl border border-rose-200">💖</div>
+          <p class="text-[11px] text-rose-600 mt-2 font-semibold">Как вижу тебя я:<br><span>Мое вдохновение и главная загадка ✨</span></p>
+        </div>
+      </div>
+      <button onclick="startTypewriter()" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Прочитать поздравление ✨</button>
+    </div>
+
+    <!-- ШАГ 5 — TYPEWRITER -->
+    <div id="step-5" class="step hidden">
+      <h2 class="text-2xl font-bold mb-6 text-rose-600">Несколько важных слов...</h2>
+      <div id="typewriter" class="text-stone-700 italic min-h-[160px] leading-relaxed mb-6 text-sm text-left"></div>
+      <button id="after-typewriter-btn" onclick="nextStep(6)" class="py-3 px-6 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition hidden">Посмотреть, что дальше ➔</button>
+    </div>
+
+    <!-- ШАГ 6 -->
+    <div id="step-6" class="step hidden">
+      <h2 class="text-2xl font-bold mb-2 text-rose-600">Что ждет тебя в твои 22?</h2>
+      <p class="text-stone-500 text-xs mb-6">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
+
+      <div id="magic-ball" onclick="askMagicBall()" class="w-24 h-24 rounded-full mx-auto flex items-center justify-center text-4xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-indigo-950 bg-gradient-to-tr from-indigo-950 via-purple-900 to-indigo-800 text-white relative">
+        <span class="relative z-10">🔮</span>
+        <div class="absolute inset-0 rounded-full bg-indigo-500 opacity-20 blur-md animate-pulse"></div>
+      </div>
+
+      <div id="ball-result" class="mb-8 min-h-[50px] flex items-center justify-center">
+        <p class="text-stone-400 text-xs italic">Шар ожидает твоего касания...</p>
+      </div>
+
+      <p class="text-stone-600 text-xs font-semibold mb-2">Лопай парящие пузыри комплиментов! 🫧</p>
+      <p class="text-stone-400 text-[10px] mb-6">Каждый пузырь хранит твою суперсилу</p>
+
+      <div class="flex justify-center gap-3 mb-6 relative min-h-[80px]">
+        <div onclick="popBubble(event, this, 'Твой смех мгновенно поднимает мне настроение и меняет день вокруг 🌸')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-rose-100/70 border border-rose-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧💖</div>
+        <div onclick="popBubble(event, this, 'Твой выдающийся ум и то, как интересно ты рассуждаешь о вещах 🧠')" class="float-bubble-2 bubble cursor-pointer w-14 h-14 rounded-full bg-purple-100/70 border border-purple-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧✨</div>
+        <div onclick="popBubble(event, this, 'В тебе есть редкое сочетание нежности и удивительно сильного характера 💪')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-pink-100/70 border border-pink-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧🦄</div>
+        <div onclick="popBubble(event, this, 'Твоя искренность делает тебя абсолютно уникальной среди всех остальных 🌟')" class="float-bubble-2 bubble cursor-pointer w-14 h-14 rounded-full bg-amber-100/70 border border-amber-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧🌸</div>
+      </div>
+
+      <div id="compliment-display" class="hidden text-left space-y-2 mb-8 max-h-[150px] overflow-y-auto p-2 bg-stone-50 rounded-2xl border border-stone-100"></div>
+
+      <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Продолжить путь ➔</button>
+    </div>
+
+    <!-- ШАГ 7 — VIDEO -->
+    <div id="step-7" class="step hidden">
+      <h2 class="text-xl font-bold mb-4 text-rose-600">Открываем дверь в новый мир...</h2>
+
+      <div class="aspect-video w-full mb-2 bg-stone-100 rounded-xl overflow-hidden shadow-md">
+        <video id="birthday-video" class="w-full h-full object-cover"
+               controls
+               playsinline
+               webkit-playsinline
+               x-webkit-airplay="allow"
+               preload="metadata">
+          <source src="video.mp4" type="video/mp4">
+          Ваш браузер не поддерживает встроенное видео.
+        </video>
+      </div>
+
+      <button id="unmute-btn" onclick="toggleMute()" class="w-full mb-6 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5">
+        🔇 Включить звук
+      </button>
+
+      <div class="border-t border-stone-100 pt-4">
+        <h3 class="font-bold text-stone-700 text-sm mb-2">✨ Детектор твоей главной суперсилы</h3>
+        <p class="text-xs text-stone-500 mb-4">Какое твоё качество, на твой взгляд, делает окружающий мир чуточку лучше каждый день?</p>
+        <div class="space-y-2">
+          <button onclick="checkHerSuperpower(this, 'Абсолютно верно! Твоя искренность и открытая душа притягивают людей как магнит. Но на самом деле в тебе скрыто гораздо больше! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твоя редкая искренность и открытость</button>
+          <button onclick="checkHerSuperpower(this, 'Именно! Твое чувство юмора и легкая улыбка способны осветить любой хмурый день. Но это лишь малая часть твоего очарования! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твое чувство юмора и умение дарить радость</button>
+          <button onclick="checkHerSuperpower(this, 'Да! Твоя целеустремленность и острый ум по-настоящему восхищают. Но за этим стержнем скрывается еще и невероятная нежность! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твоя целеустремленность и внутренний стержень</button>
+        </div>
+      </div>
+      <button onclick="nextStep(8)" class="mt-6 w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Перейти к финалу ✨</button>
+    </div>
+
+    <!-- ШАГ 8 -->
+    <div id="step-8" class="step hidden">
+      <h2 class="text-2xl font-bold mb-2 text-rose-600">Давай отпразднуем? 🗺️</h2>
+      <p class="text-stone-500 text-xs mb-6">Я бы очень хотел пригласить тебя провести этот праздничный день вместе. Выбери наиболее удобные для тебя варианты:</p>
+
+      <form id="celebration-form" onsubmit="sendToWhatsApp(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Какой день тебе больше подходит?</label>
+          <select id="day-choice" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+            <option>Пятница 📅</option><option>Суббота 📅</option><option>Воскресенье 📅</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Куда бы ты хотела отправиться?</label>
+          <select id="option" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+            <option>Выставка Леонардо да Винчи 🎨</option>
+            <option>Кино-ресторан 🎬🍿</option>
+            <option>Ужин в ресторане 🍽️</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Примерное время встречи (в формате 24ч):</label>
+          <input type="time" id="time" value="18:30" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Особые пожелания или капризы:</label>
+          <textarea id="notes" placeholder="Например: хочу сладкую вату, попкорн или определенные цветы..." rows="2" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Поделиться планами на вечер! 💌</button>
+      </form>
+    </div>
+
   </div>
 
-  <!-- STEP 5 — TYPEWRITER -->
-  <div id="step-5" class="step hidden">
-    <div class="text-4xl mb-3">💌</div>
-    <h2 class="text-2xl font-bold mb-4 gtitle">Несколько важных слов...</h2>
-    <div id="typewriter" class="text-stone-700 italic leading-relaxed text-sm text-left rounded-2xl p-5 border border-rose-100 mb-6"
-         style="min-height:160px;background:linear-gradient(135deg,#fff5f7,#fdf2ff)"></div>
-    <button id="after-tw-btn" onclick="nextStep(6)"
-            class="btn-shim px-8 py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm hidden shadow-md">
-      Посмотреть, что дальше ➔
-    </button>
-  </div>
+  <script>
+    let currentStep = 1;
 
-  <!-- STEP 6 — MAGIC BALL + BUBBLES -->
-  <div id="step-6" class="step hidden">
-    <h2 class="text-2xl font-bold mb-1 gtitle">Что ждёт тебя в твои 22?</h2>
-    <p class="text-stone-400 text-xs mb-5">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
-    <div id="magic-ball" onclick="askMagicBall()"
-         class="w-28 h-28 rounded-full mx-auto flex items-center justify-center text-4xl cursor-pointer hover:scale-110 active:scale-95 transition-transform duration-300 mb-4 border-4 border-indigo-950 relative select-none ball-glow"
-         style="background:linear-gradient(135deg,#1e1b4b,#4c1d95,#312e81)">
-      <span class="relative z-10">🔮</span>
-      <div class="absolute inset-0 rounded-full bg-indigo-400 opacity-15 blur-lg animate-pulse"></div>
-    </div>
-    <div id="ball-result" class="mb-6 min-h-[50px] flex items-center justify-center px-2">
-      <p class="text-stone-400 text-xs italic">Шар ожидает твоего касания...</p>
-    </div>
-    <p class="text-stone-600 text-xs font-semibold mb-1">Лопай парящие пузыри комплиментов! 🫧</p>
-    <p class="text-stone-400 text-[10px] mb-5">Каждый пузырь хранит твою суперсилу</p>
-    <div class="flex justify-center gap-4 mb-5" style="min-height:80px">
-      <div onclick="popBubble(event,this,'Твой смех мгновенно поднимает настроение и меняет день вокруг 🌸')" class="fb1 bubble select-none cursor-pointer w-16 h-16 rounded-full bg-rose-100 border border-rose-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition">🫧💖</div>
-      <div onclick="popBubble(event,this,'Твой выдающийся ум и то, как интересно ты рассуждаешь о вещах 🧠')" class="fb2 bubble select-none cursor-pointer w-16 h-16 rounded-full bg-purple-100 border border-purple-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition">🫧✨</div>
-      <div onclick="popBubble(event,this,'В тебе редкое сочетание нежности и удивительно сильного характера 💪')" class="fb1 bubble select-none cursor-pointer w-16 h-16 rounded-full bg-pink-100 border border-pink-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition">🫧🦄</div>
-      <div onclick="popBubble(event,this,'Твоя искренность делает тебя абсолютно уникальной среди всех остальных 🌟')" class="fb2 bubble select-none cursor-pointer w-16 h-16 rounded-full bg-amber-100 border border-amber-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition">🫧🌸</div>
-    </div>
-    <div id="compliment-box" class="hidden text-left mb-6 max-h-40 overflow-y-auto bg-stone-50 rounded-2xl border border-stone-100 p-2 cscroll"></div>
-    <button onclick="nextStep(7)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">Продолжить путь ➔</button>
-  </div>
+    function nextStep(stepNum) {
+      document.querySelectorAll("audio").forEach(m => m.pause());
+      const video = document.getElementById("birthday-video");
+      if (video) video.pause();
 
-  <!-- STEP 7 — VIDEO -->
-  <!--
-    ВИДЕО: два варианта, раскомментируй нужный.
+      document.querySelectorAll(".step").forEach(el => el.classList.add("hidden"));
+      document.getElementById("step-" + stepNum).classList.remove("hidden");
+      currentStep = stepNum;
 
-    ВАРИАНТ A (YouTube) — рекомендуем. Загрузи видео на YouTube (приватно/по ссылке),
-    замени YOUTUBE_VIDEO_ID на ID видео (часть URL после ?v= или youtu.be/).
-
-    ВАРИАНТ B (локальное видео) — нужен сервер (Flask / Netlify).
-  -->
-  <div id="step-7" class="step hidden">
-    <h2 class="text-xl font-bold mb-4 gtitle">Открываем дверь в новый мир...</h2>
-
-    <!-- ▼ ВАРИАНТ A: YouTube embed (рекомендуем) -->
-    <div class="aspect-video w-full mb-4 bg-stone-900 rounded-2xl overflow-hidden shadow-xl">
-      <iframe
-        src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID?playsinline=1&rel=0&modestbranding=1"
-        class="w-full h-full" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen playsinline>
-      </iframe>
-    </div>
-
-    <!-- ▼ ВАРИАНТ B: локальный файл (раскомментируй если используешь сервер)
-    <div class="aspect-video w-full mb-4 bg-stone-900 rounded-2xl overflow-hidden shadow-xl">
-      <video class="w-full h-full object-cover" controls playsinline webkit-playsinline
-             x-webkit-airplay="allow" preload="metadata">
-        <source src="video.mp4" type="video/mp4">
-      </video>
-    </div>
-    -->
-
-    <div class="border-t border-stone-100 pt-4 text-left">
-      <h3 class="font-bold text-stone-700 text-sm mb-2 text-center">✨ Детектор твоей главной суперсилы</h3>
-      <p class="text-xs text-stone-400 mb-4 text-center">Какое твоё качество делает мир чуточку лучше каждый день?</p>
-      <div class="space-y-2">
-        <button onclick="checkSuperpower(this,'Абсолютно верно! Твоя искренность и открытая душа притягивают людей как магнит. Но в тебе скрыто гораздо больше! 🥰')"
-                class="sup-btn w-full py-3 bg-stone-50 text-stone-700 rounded-xl text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-4">🌟 Твоя редкая искренность и открытость</button>
-        <button onclick="checkSuperpower(this,'Именно! Твоё чувство юмора и лёгкая улыбка способны осветить любой хмурый день! 🥰')"
-                class="sup-btn w-full py-3 bg-stone-50 text-stone-700 rounded-xl text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-4">🌟 Твоё чувство юмора и умение дарить радость</button>
-        <button onclick="checkSuperpower(this,'Да! Твоя целеустремлённость и острый ум восхищают. За стержнем скрывается невероятная нежность! 🥰')"
-                class="sup-btn w-full py-3 bg-stone-50 text-stone-700 rounded-xl text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-4">🌟 Твоя целеустремлённость и внутренний стержень</button>
-      </div>
-    </div>
-    <button onclick="nextStep(8)" class="btn-shim mt-5 w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">Перейти к финалу ✨</button>
-  </div>
-
-  <!-- STEP 8 -->
-  <div id="step-8" class="step hidden">
-    <div class="text-5xl mb-3 heartbeat">🎊</div>
-    <h2 class="text-2xl font-bold mb-1 gtitle">Давай отпразднуем? 🗺️</h2>
-    <p class="text-stone-400 text-xs mb-6">Выбери удобные варианты, и я организую всё остальное:</p>
-    <div class="space-y-4 text-left">
-      <div>
-        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Какой день подходит?</label>
-        <select id="day-choice" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" style="-webkit-appearance:none">
-          <option>Пятница 📅</option><option>Суббота 📅</option><option>Воскресенье 📅</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Куда отправимся?</label>
-        <select id="day-option" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" style="-webkit-appearance:none">
-          <option>Выставка Леонардо да Винчи 🎨</option>
-          <option>Кино-ресторан 🎬🍿</option>
-          <option>Ужин в ресторане 🍽️</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Время встречи:</label>
-        <input type="time" id="meet-time" value="18:30" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300">
-      </div>
-      <div>
-        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Особые пожелания:</label>
-        <textarea id="meet-notes" rows="2" placeholder="Например: хочу сладкую вату, попкорн или определённые цветы..."
-                  class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 resize-none"></textarea>
-      </div>
-      <button onclick="sendToWhatsApp()" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-lg text-sm">Поделиться планами на вечер! 💌</button>
-    </div>
-  </div>
-
-  </div><!-- /padding -->
-</div><!-- /card -->
-
-<script>
-// ═══════════════════════════════════════
-//  TRACKS CONFIG  ← замени src на свои файлы или data: URIs (после embed_audio.py)
-// ═══════════════════════════════════════
-const TRACKS = [
-  { id:"a1", title:"Хочу быть рядом",    artist:"Rusty",                   src:"track1.mp3" },
-  { id:"a2", title:"Привет",             artist:"Комната культуры",        src:"track2.mp3" },
-  { id:"a3", title:"Космосом",           artist:"М. Князев & В. Копылова", src:"track3.mp3" },
-  { id:"a4", title:"О ней",              artist:"Фарик Назарбаев",         src:"track4.mp3" },
-  { id:"a5", title:"Голоса",             artist:"Звонкий",                 src:"track5.mp3" },
-];
-
-// ═══════════════════════════════════════
-//  HOWLER.JS AUDIO ENGINE
-//  html5:true — ключевой параметр для iOS Safari.
-//  Howler использует HTML5 Audio (а не Web Audio API),
-//  что обходит все ограничения iOS на автовоспроизведение.
-// ═══════════════════════════════════════
-const sounds = {};
-let activeId = null;
-const timers = {};
-
-function initHowler() {
-  TRACKS.forEach(t => {
-    sounds[t.id] = new Howl({
-      src: [t.src],
-      html5: true,       // ВАЖНО: без этого iOS Safari не воспроизводит
-      format: ["mp3"],
-      onplay: function() {
-        setBtn(t.id, true);
-        setVinyl(true);
-        timers[t.id] = setInterval(() => tickProgress(t.id), 100);
-      },
-      onpause: function() {
-        setBtn(t.id, false);
-        clearInterval(timers[t.id]);
-        checkVinyl();
-      },
-      onend: function() {
-        setBtn(t.id, false);
-        clearInterval(timers[t.id]);
-        setFill(t.id, 0);
-        setTimeEl(t.id, "0:00");
-        checkVinyl();
-        activeId = null;
-      },
-      onloaderror: function(id, err) {
-        console.error("Howler load error:", t.id, err);
-        // Показываем пользователю что файл не найден
-        const btn = document.getElementById("btn-"+t.id);
-        if(btn){ btn.textContent="✕"; btn.style.background="#ef4444"; }
-      },
-      onplayerror: function(id, err) {
-        console.error("Howler play error:", t.id, err);
-        // iOS unlock: Howler попробует снова после разблокировки контекста
-        sounds[t.id].once("unlock", function() {
-          if(activeId === t.id) sounds[t.id].play();
-        });
+      if (stepNum === 7) {
+        if (video) {
+          video.muted = true;
+          video.currentTime = 0;
+          const unmuteBtn = document.getElementById("unmute-btn");
+          if (unmuteBtn) unmuteBtn.innerHTML = "🔇 Включить звук";
+          video.play().catch(err => console.log("Autoplay blocked:", err));
+        }
       }
+
+      if (stepNum === 8) {
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+
+    function toggleMute() {
+      const video = document.getElementById("birthday-video");
+      const btn = document.getElementById("unmute-btn");
+      if (video && btn) {
+        video.muted = !video.muted;
+        btn.innerHTML = video.muted ? "🔇 Включить звук" : "🔊 Выключить звук";
+      }
+    }
+
+    function restartAudio(id) {
+      const audio = document.getElementById(id);
+      if (audio) { audio.currentTime = 0; audio.play(); }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const audios = document.querySelectorAll("audio");
+      audios.forEach(audio => {
+        audio.addEventListener("play", () => {
+          audios.forEach(other => { if (other !== audio) other.pause(); });
+        });
+      });
     });
-  });
-}
 
-function togglePlay(id) {
-  const s = sounds[id];
-  if (!s) return;
-  // Останавливаем предыдущий трек
-  if (activeId && activeId !== id && sounds[activeId]) {
-    sounds[activeId].pause();
-    clearInterval(timers[activeId]);
-    setBtn(activeId, false);
-  }
-  if (s.playing()) {
-    s.pause();
-    activeId = null;
-  } else {
-    s.play();
-    activeId = id;
-  }
-}
+    document.getElementById("heart-icon").addEventListener("click", function() {
+      this.classList.add("hidden");
+      document.getElementById("progress-container").classList.remove("hidden");
+      document.getElementById("progress-text").classList.remove("hidden");
 
-function stopAllAudio() {
-  TRACKS.forEach(t => {
-    if(sounds[t.id]) sounds[t.id].pause();
-    clearInterval(timers[t.id]);
-    setBtn(t.id, false);
-  });
-  setVinyl(false);
-  activeId = null;
-}
+      let progress = 0;
+      const bar = document.getElementById("progress-bar");
+      const txt = document.getElementById("progress-text");
 
-function tickProgress(id) {
-  const s = sounds[id];
-  if (!s || !s.playing()) return;
-  const seek = s.seek() || 0;
-  const dur  = s.duration() || 1;
-  setFill(id, (seek / dur) * 100);
-  setTimeEl(id, fmtTime(seek) + " / " + fmtTime(dur));
-}
+      const interval = setInterval(() => {
+        progress += 2;
+        bar.style.width = progress + "%";
+        txt.innerText = progress + "%";
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => nextStep(2), 400);
+        }
+      }, 30);
+    });
 
-function seekTrack(id, evt) {
-  const s    = sounds[id];
-  const rail = document.getElementById("rail-"+id);
-  if (!s || !rail) return;
-  const rect = rail.getBoundingClientRect();
-  const cx   = evt.touches ? evt.touches[0].clientX : evt.clientX;
-  const pct  = Math.max(0, Math.min(1, (cx - rect.left) / rect.width));
-  s.seek(pct * s.duration());
-}
+    function startTypewriter() {
+      nextStep(5);
+      const text = "С днем рождения! 🌸 Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает ✨. Я безумно рад нашему теплому общению, твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром. Пусть этот день станет началом самого счастливого года в твоей жизни 💕, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
+      const container = document.getElementById("typewriter");
+      // FIX: Array.from корректно делит строку по Unicode code points,
+      // не разрезая эмодзи (surrogate pairs) пополам.
+      const chars = Array.from(text);
+      let index = 0;
+      container.innerHTML = "";
 
-function setBtn(id, playing) {
-  const b = document.getElementById("btn-"+id);
-  if (b) b.textContent = playing ? "⏸" : "▶";
-}
-function setFill(id, pct) {
-  const f = document.getElementById("fill-"+id);
-  if (f) f.style.width = pct + "%";
-}
-function setTimeEl(id, t) {
-  const el = document.getElementById("time-"+id);
-  if (el) el.textContent = t;
-}
-function checkVinyl() {
-  const anyPlaying = TRACKS.some(t => sounds[t.id] && sounds[t.id].playing());
-  setVinyl(anyPlaying);
-}
-function setVinyl(spin) {
-  const v = document.getElementById("vinyl");
-  if (v) spin ? v.classList.remove("paused") : v.classList.add("paused");
-}
-function fmtTime(s) {
-  if (isNaN(s)||s===Infinity) return "0:00";
-  return Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
-}
+      function type() {
+        if (index < chars.length) {
+          container.append(chars[index]);
+          index++;
+          setTimeout(type, 35);
+        } else {
+          document.getElementById("after-typewriter-btn").classList.remove("hidden");
+        }
+      }
+      setTimeout(type, 300);
+    }
 
-// Строит карточки плеера
-function buildPlaylist() {
-  const c = document.getElementById("playlist");
-  if (c.children.length) return;
-  TRACKS.forEach(t => {
-    const card = document.createElement("div");
-    card.className = "bg-stone-50 border border-stone-100 rounded-2xl p-3.5 hover:border-rose-200 transition";
-    card.innerHTML = `
-      <div class="flex items-center gap-3 mb-2.5">
-        <button id="btn-${t.id}" onclick="togglePlay('${t.id}')"
-          class="shrink-0 rounded-full bg-rose-500 hover:bg-rose-600 active:scale-90 transition
-                 text-white flex items-center justify-center shadow text-lg font-bold"
-          style="width:48px;height:48px;min-width:48px">▶</button>
-        <div class="min-w-0 flex-1 text-left">
-          <p class="text-xs font-bold text-stone-800 truncate">${t.title}</p>
-          <p class="text-[10px] text-stone-400 truncate">${t.artist}</p>
-        </div>
-        <span id="time-${t.id}" class="text-[10px] text-stone-400 font-mono shrink-0 text-right" style="min-width:60px">0:00</span>
-      </div>
-      <div id="rail-${t.id}" class="prog-rail"
-           onclick="seekTrack('${t.id}',event)"
-           ontouchend="seekTrack('${t.id}',event)">
-        <div id="fill-${t.id}" class="prog-fill">
-          <div class="prog-thumb"></div>
-        </div>
-      </div>`;
-    c.appendChild(card);
-  });
-}
+    function askMagicBall() {
+      const ball = document.getElementById("magic-ball");
+      const resultDiv = document.getElementById("ball-result");
+      ball.classList.add("animate-shake");
+      resultDiv.innerHTML = '<p class="text-indigo-400 text-xs animate-pulse">Шар считывает твою энергетику... ⚡</p>';
+      setTimeout(() => {
+        ball.classList.remove("animate-shake");
+        const predictions = [
+          "Тебя ждут уютные встречи и очень много искреннего смеха! ✨",
+          "Событие, которое безумно тебя удивит в самый неожиданный момент! 🎁",
+          "Успешное достижение твоих главных целей и новых вершин! 🏔️",
+          "Много тепла, внимания и поддержки от близких людей! 🤗"
+        ];
+        const p = predictions[Math.floor(Math.random() * predictions.length)];
+        resultDiv.innerHTML = `<div class="bg-indigo-50 text-indigo-950 border border-indigo-100 rounded-2xl p-3 text-xs font-semibold animate-bounce shadow-inner w-full">${p}</div>`;
+        confetti({ particleCount: 20, angle: 90, spread: 40, origin: { y: 0.6 } });
+      }, 800);
+    }
 
-// ═══════════════════════════════════════
-//  STEP ENGINE
-// ═══════════════════════════════════════
-const TOTAL=8; let curStep=1;
-function nextStep(n) {
-  stopAllAudio();
-  document.querySelectorAll(".step").forEach(el => {
-    el.classList.add("hidden"); el.classList.remove("step-in");
-  });
-  const el = document.getElementById("step-"+n);
-  if (el) { el.classList.remove("hidden"); void el.offsetWidth; el.classList.add("step-in"); }
-  curStep=n; updateDots(n);
-  if(n>1) document.getElementById("step-dots").style.display="flex";
-  if(n===3) { buildPlaylist(); initHowler(); startParticles(); }
-  if(n===8) fireworks();
-}
+    function popBubble(event, element, complimentText) {
+      const x = event.clientX / window.innerWidth;
+      const y = event.clientY / window.innerHeight;
+      confetti({ particleCount: 25, spread: 40, origin: { x, y }, colors: ["#f43f5e","#fda4af","#fecdd3","#c084fc"] });
+      element.classList.add("scale-150", "opacity-0");
+      element.style.pointerEvents = "none";
+      setTimeout(() => element.style.display = "none", 300);
+      const displayCard = document.getElementById("compliment-display");
+      displayCard.classList.remove("hidden");
+      const newMsg = document.createElement("div");
+      newMsg.className = "bg-rose-50 border border-rose-100 text-rose-700 text-[11px] p-2.5 rounded-xl mb-1.5 animate-fade-in font-medium shadow-sm flex items-center gap-1.5";
+      newMsg.innerHTML = `<span>✨</span> <span>${complimentText}</span>`;
+      displayCard.appendChild(newMsg);
+      displayCard.scrollTop = displayCard.scrollHeight;
+    }
 
-// ═══════════════════════════════════════
-//  STEP DOTS
-// ═══════════════════════════════════════
-function initDots(){
-  const w=document.getElementById("step-dots");
-  for(let i=1;i<=TOTAL;i++){const d=document.createElement("div");d.className="sdot";d.id="dot-"+i;w.appendChild(d);}
-}
-function updateDots(active){
-  for(let i=1;i<=TOTAL;i++){
-    const d=document.getElementById("dot-"+i); if(!d)continue;
-    d.className="sdot";
-    if(i<active) d.classList.add("done");
-    if(i===active) d.classList.add("active");
-  }
-}
+    function checkHerSuperpower(btn, message) {
+      const buttons = btn.parentElement.querySelectorAll("button");
+      buttons.forEach(b => {
+        b.classList.remove("bg-rose-50","border-rose-300","text-rose-700");
+        b.classList.add("bg-stone-50","text-stone-700","border-stone-200");
+      });
+      btn.classList.remove("bg-stone-50","text-stone-700","border-stone-200");
+      btn.classList.add("bg-rose-50","border-rose-300","text-rose-700");
+      confetti({ particleCount: 55, spread: 60, origin: { y: 0.8 } });
+      showToast(message);
+    }
 
-// ═══════════════════════════════════════
-//  FLOWER
-// ═══════════════════════════════════════
-document.getElementById("heart-icon").addEventListener("click",function(){
-  this.style.transition="transform .3s,opacity .3s";
-  this.style.transform="scale(1.5)"; this.style.opacity="0";
-  setTimeout(()=>{
-    this.style.display="none";
-    document.getElementById("prog-wrap").classList.remove("hidden");
-    document.getElementById("prog-txt").classList.remove("hidden");
-    let p=0;
-    const bar=document.getElementById("prog-bar"),txt=document.getElementById("prog-txt");
-    const iv=setInterval(()=>{p+=2;bar.style.width=p+"%";txt.textContent=p+"%";
-      if(p>=100){clearInterval(iv);setTimeout(()=>nextStep(2),350);}},22);
-  },300);
-});
+    function showToast(msg) {
+      const old = document.getElementById("toast");
+      if (old) old.remove();
+      const t = document.createElement("div");
+      t.id = "toast";
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .4s"; setTimeout(() => t.remove(), 400); }, 3500);
+    }
 
-// ═══════════════════════════════════════
-//  TYPEWRITER — Array.from() для emoji
-// ═══════════════════════════════════════
-function startTypewriter(){
-  nextStep(5);
-  const lines=[
-    "С днем рождения! 🌸",
-    "",
-    "Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии.",
-    "",
-    "Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. ✨",
-    "",
-    "Я безумно рад нашему тёплому общению, твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром.",
-    "",
-    "Пусть этот день станет началом самого счастливого года в твоей жизни... 💕",
-  ];
-  const chars = Array.from(lines.join("\n"));
-  const box = document.getElementById("typewriter");
-  box.innerHTML="";
-  const cur=document.createElement("span"); cur.className="tw-cur"; box.appendChild(cur);
-  let i=0;
-  function type(){
-    if(i>=chars.length){cur.remove();document.getElementById("after-tw-btn").classList.remove("hidden");return;}
-    const ch=chars[i++];
-    ch==="\n" ? box.insertBefore(document.createElement("br"),cur)
-              : box.insertBefore(document.createTextNode(ch),cur);
-    const isEmoji=ch.codePointAt(0)>0xFFFF;
-    setTimeout(type, ch==="\n"?170:isEmoji?90:26);
-  }
-  setTimeout(type,350);
-}
-
-// ═══════════════════════════════════════
-//  MAGIC BALL
-// ═══════════════════════════════════════
-const PREDS=["Тебя ждут уютные встречи и очень много искреннего смеха! ✨","Событие, которое безумно тебя удивит в самый неожиданный момент! 🎁","Успешное достижение твоих главных целей и новых вершин! 🏔️","Много тепла, внимания и поддержки от близких людей! 🤗","Новое увлечение, которое принесёт невероятное вдохновение! 💫","Путешествие или приключение, которое изменит твой взгляд на мир! 🗺️"];
-function askMagicBall(){
-  const ball=document.getElementById("magic-ball"),res=document.getElementById("ball-result");
-  ball.style.pointerEvents="none"; ball.classList.add("do-shake");
-  res.innerHTML='<p class="text-indigo-400 text-xs animate-pulse">Шар считывает энергетику... ⚡</p>';
-  setTimeout(()=>{
-    ball.classList.remove("do-shake"); ball.style.pointerEvents="auto";
-    const p=PREDS[Math.floor(Math.random()*PREDS.length)];
-    res.innerHTML=`<div class="w-full fade-up rounded-2xl p-3.5 text-xs font-semibold shadow-inner border border-indigo-100 text-indigo-900" style="background:linear-gradient(135deg,#eef2ff,#f5f3ff)">${p}</div>`;
-    confetti({particleCount:30,angle:90,spread:45,origin:{y:.55}});
-  },900);
-}
-
-// ═══════════════════════════════════════
-//  BUBBLES
-// ═══════════════════════════════════════
-function popBubble(evt,el,text){
-  const x=evt.clientX/window.innerWidth,y=evt.clientY/window.innerHeight;
-  confetti({particleCount:35,spread:50,origin:{x,y},colors:["#f43f5e","#fda4af","#fecdd3","#c084fc"]});
-  el.style.transition="transform .2s,opacity .2s"; el.style.transform="scale(1.7)"; el.style.opacity="0"; el.style.pointerEvents="none";
-  setTimeout(()=>el.style.display="none",220);
-  const box=document.getElementById("compliment-box"); box.classList.remove("hidden");
-  const m=document.createElement("div");
-  m.className="fade-up flex items-start gap-1.5 bg-rose-50 border border-rose-100 text-rose-700 text-[11px] font-medium p-2.5 rounded-xl mb-1.5";
-  m.innerHTML=`<span class="shrink-0">✨</span><span>${text}</span>`;
-  box.appendChild(m); box.scrollTop=box.scrollHeight;
-}
-
-// ═══════════════════════════════════════
-//  SUPERPOWER
-// ═══════════════════════════════════════
-function checkSuperpower(btn,msg){
-  document.querySelectorAll(".sup-btn").forEach(b=>{b.classList.remove("bg-rose-50","border-rose-300","text-rose-700");b.classList.add("bg-stone-50","border-stone-200","text-stone-700");});
-  btn.classList.remove("bg-stone-50","border-stone-200","text-stone-700");
-  btn.classList.add("bg-rose-50","border-rose-300","text-rose-700");
-  confetti({particleCount:70,spread:70,origin:{y:.8}});
-  showToast(msg);
-}
-
-// ═══════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════
-function showToast(msg){
-  const old=document.getElementById("toast"); if(old)old.remove();
-  const t=document.createElement("div"); t.id="toast"; t.className="fade-up";
-  t.innerHTML=`<span style="font-size:1.1rem;flex-shrink:0">🥰</span><span>${msg}</span>`;
-  document.body.appendChild(t);
-  setTimeout(()=>{t.style.transition="opacity .4s";t.style.opacity="0";setTimeout(()=>t.remove(),400);},3800);
-}
-
-// ═══════════════════════════════════════
-//  PARTICLES
-// ═══════════════════════════════════════
-const EMOJIS=["🌸","✨","💫","🫧","💕","⭐","🌟","🎀","💗","🦋"];
-let ptimer=null;
-function startParticles(){
-  if(ptimer)return;
-  const layer=document.getElementById("particle-layer");
-  function spawn(){
-    const el=document.createElement("span");
-    el.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-    const sz=10+Math.random()*12,dur=4+Math.random()*4;
-    el.style.cssText=`position:absolute;left:${Math.random()*100}%;bottom:-30px;font-size:${sz}px;pointer-events:none;user-select:none;animation:floatUp ${dur}s ease-out forwards;`;
-    layer.appendChild(el); setTimeout(()=>el.remove(),(dur+.5)*1000);
-  }
-  for(let i=0;i<10;i++)setTimeout(spawn,i*130);
-  ptimer=setInterval(spawn,750);
-  setTimeout(()=>{clearInterval(ptimer);ptimer=null;},40000);
-}
-
-// ═══════════════════════════════════════
-//  FIREWORKS
-// ═══════════════════════════════════════
-function fireworks(){
-  const end=Date.now()+3200;
-  (function boom(){
-    if(Date.now()>end)return;
-    confetti({particleCount:22,angle:60,spread:48,origin:{x:0,y:.65},colors:["#f43f5e","#ec4899","#fda4af"]});
-    confetti({particleCount:22,angle:120,spread:48,origin:{x:1,y:.65},colors:["#8b5cf6","#a78bfa","#c4b5fd"]});
-    setTimeout(boom,220);
-  })();
-}
-
-// ═══════════════════════════════════════
-//  WHATSAPP
-// ═══════════════════════════════════════
-function sendToWhatsApp(){
-  const phone="77071234567"; // ← ВАШ НОМЕР
-  const day=document.getElementById("day-choice").value;
-  const opt=document.getElementById("day-option").value;
-  const time=document.getElementById("meet-time").value;
-  const notes=(document.getElementById("meet-notes").value||"").trim();
-  const text=`Привет! Прошла твой праздничный квест ✨\n\n📅 День: ${day}\n📍 Куда: ${opt}\n⏰ Время: ${time}\n💭 Пожелания: ${notes||"Особых капризов нет, жду встречи!"}`;
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,"_blank");
-}
-
-document.addEventListener("DOMContentLoaded",initDots);
-</script>
+    function sendToWhatsApp(event) {
+      event.preventDefault();
+      const myPhoneNumber = "77071234567";  // ← ЗАМЕНИ НА СВОЙ НОМЕР
+      const dayChoice = document.getElementById("day-choice").value;
+      const option = document.getElementById("option").value;
+      const time = document.getElementById("time").value;
+      const notes = document.getElementById("notes").value;
+      const text = `Привет! Прошла твой праздничный квест ✨\n\nВот мои пожелания по встрече:\n📅 Удобный день: ${dayChoice}\n📍 Куда сходим: ${option}\n⏰ Примерное время: ${time}\n💭 Особые пожелания: ${notes || 'Особых капризов нет, жду встречи!'}`;
+      window.open(`https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(text)}`, "_blank");
+    }
+  </script>
 </body>
 </html>
