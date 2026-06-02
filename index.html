@@ -6,85 +6,220 @@
 <title>С Днем Рождения! ✨</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @keyframes pulse-slow { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-  .pulse-heart { animation: pulse-slow 2.5s infinite; }
-  @keyframes spin-slow { from{transform:rotate(0)} to{transform:rotate(360deg)} }
-  .spin-vinyl { animation: spin-slow 8s infinite linear; }
-  @keyframes shake {
-    0%,100% { transform: translate(0,0) rotate(0); }
-    10% { transform: translate(-2px,-2px) rotate(-1deg); }
-    20% { transform: translate(-4px,0) rotate(1deg); }
-    30% { transform: translate(0,3px) rotate(0); }
-    40% { transform: translate(2px,-1px) rotate(1deg); }
-    50% { transform: translate(-1px,3px) rotate(-1deg); }
-    60% { transform: translate(-4px,1px) rotate(0); }
-    70% { transform: translate(3px,2px) rotate(-1deg); }
-    80% { transform: translate(-2px,-1px) rotate(1deg); }
-    90% { transform: translate(3px,3px) rotate(0); }
+  body { font-family: 'DM Sans', sans-serif; }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+  /* ─── Gradient headlines ─── */
+  .gtitle {
+    background: linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  .animate-shake { animation: shake .6s ease-in-out; }
-  @keyframes bf1 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-12px) translateX(5px)} }
-  @keyframes bf2 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-8px) translateX(-6px)} }
-  .float-bubble-1 { animation: bf1 4s infinite ease-in-out; }
-  .float-bubble-2 { animation: bf2 3.5s infinite ease-in-out; }
-  @keyframes fadeInScale { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
-  .animate-fade-in { animation: fadeInScale .4s forwards ease-out; }
-  .custom-scroll::-webkit-scrollbar { width: 4px; }
-  .custom-scroll::-webkit-scrollbar-track { background: #f5f5f4; border-radius: 10px; }
-  .custom-scroll::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 10px; }
+
+  /* ─── Анимация цветка-входа ─── */
+  @keyframes petalPulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(244,63,94,0.5)); }
+    50% { transform: scale(1.1); filter: drop-shadow(0 0 28px rgba(244,63,94,0.9)); }
+  }
+  .pulse-petal { animation: petalPulse 2.5s ease-in-out infinite; }
+
+  /* ─── Винил ─── */
+  @keyframes vinylSpin { to { transform: rotate(360deg); } }
+  .vinyl-spin { animation: vinylSpin 7s linear infinite; }
+
+  /* ─── Переход между шагами ─── */
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .step-in { animation: stepIn 0.5s cubic-bezier(0.22, 0.68, 0, 1.2); }
+
+  /* ─── Курсор печатной машинки ─── */
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .tw-cursor {
+    display: inline-block; width: 2px; height: 1.15em;
+    background: #f43f5e; margin-left: 2px; vertical-align: text-bottom;
+    border-radius: 2px; animation: blink 1s step-end infinite;
+  }
+
+  /* ─── Тряска шара ─── */
+  @keyframes shake {
+    0%, 100% { transform: translate(0,0) rotate(0); }
+    10% { transform: translate(-3px,-3px) rotate(-2deg); }
+    25% { transform: translate(-5px,1px) rotate(2deg); }
+    40% { transform: translate(3px,3px) rotate(-1deg); }
+    55% { transform: translate(-2px,-2px) rotate(1deg); }
+    70% { transform: translate(4px,2px) rotate(2deg); }
+    85% { transform: translate(-3px,3px) rotate(-2deg); }
+  }
+  .animate-shake { animation: shake 0.65s ease-in-out; }
+
+  /* ─── Парящие пузыри ─── */
+  @keyframes float1 { 0%,100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-14px) translateX(6px); } }
+  @keyframes float2 { 0%,100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-10px) translateX(-7px); } }
+  .float-bubble-1 { animation: float1 4s ease-in-out infinite; }
+  .float-bubble-2 { animation: float2 3.6s ease-in-out infinite; }
+
+  /* ─── Fade-in для появляющихся элементов ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-fade-up { animation: fadeUp 0.4s ease-out forwards; }
+
+  /* ─── Глоу для магического шара ─── */
+  @keyframes ballGlow {
+    0%, 100% { box-shadow: 0 0 14px rgba(99,102,241,0.45), 0 0 28px rgba(99,102,241,0.2); }
+    50% { box-shadow: 0 0 32px rgba(99,102,241,0.85), 0 0 60px rgba(99,102,241,0.4); }
+  }
+  .ball-glow { animation: ballGlow 2.2s ease-in-out infinite; }
+
+  /* ─── Шиммер на кнопках ─── */
+  .btn-shim { position: relative; overflow: hidden; }
+  .btn-shim::after {
+    content: ''; position: absolute; top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: skewX(-15deg);
+  }
+  .btn-shim:hover::after { animation: shimRun 0.6s ease-out; }
+  @keyframes shimRun { to { left: 130%; } }
+
+  /* ─── Шиммер на прогресс-баре ─── */
+  @keyframes progShim {
+    0% { transform: translateX(-150%); }
+    100% { transform: translateX(250%); }
+  }
+  #prog-bar::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: progShim 1.8s ease-in-out infinite;
+  }
+
+  /* ─── Фоновые парящие частицы ─── */
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.7; }
+    80% { opacity: 0.4; }
+    100% { transform: translateY(-110vh) scale(0.4) rotate(280deg); opacity: 0; }
+  }
+  #particles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  #particles span {
+    position: absolute; bottom: -30px; user-select: none;
+    animation-name: floatUp; animation-timing-function: ease-out; animation-fill-mode: forwards;
+  }
+
+  /* ─── Step indicator dots ─── */
+  .sdot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #fecdd3; transition: all 0.3s ease;
+  }
+  .sdot.done { background: #fb7185; }
+  .sdot.active { background: #f43f5e; transform: scale(1.5); }
+
+  /* ─── ТОРТ С СВЕЧОЙ ─── */
+  @keyframes flameFlicker {
+    0%, 100% { transform: scale(1) rotate(-1deg); }
+    25% { transform: scale(1.15) translateX(-1px) rotate(2deg); }
+    50% { transform: scale(0.9) rotate(-2deg); }
+    75% { transform: scale(1.1) translateX(1px) rotate(1deg); }
+  }
+  #cake-flame { animation: flameFlicker 0.4s ease-in-out infinite; transform-origin: center bottom; }
+  #cake-flame.out { animation: extinguish 1s ease-out forwards; }
+  @keyframes extinguish {
+    0% { opacity: 1; transform: scale(1); }
+    30% { opacity: 0.7; transform: scale(1.6) translateY(-5px); }
+    100% { opacity: 0; transform: scale(0.2) translateY(-40px); }
+  }
+  @keyframes smokeRise {
+    0% { opacity: 0; transform: translateY(0) scale(0.5); }
+    20% { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-60px) scale(2); }
+  }
+  .smoke {
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    width: 12px; height: 12px; background: rgba(180, 180, 180, 0.4);
+    border-radius: 50%; pointer-events: none;
+  }
+  .smoke.active { animation: smokeRise 1.5s ease-out forwards; }
+
+  /* ─── Прочее ─── */
   * { -webkit-tap-highlight-color: transparent; }
-  /* Лёгкое улучшение нативного аудио на десктопе */
   audio { width: 100%; }
+  .cscroll::-webkit-scrollbar { width: 4px; }
+  .cscroll::-webkit-scrollbar-track { background: #f5f5f4; border-radius: 10px; }
+  .cscroll::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 10px; }
   #toast {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: #f43f5e; color: #fff; padding: 12px 18px;
-    border-radius: 14px; font-size: 13px; font-weight: 600;
-    box-shadow: 0 8px 28px rgba(244,63,94,.35); z-index: 9999;
+    background: linear-gradient(135deg, #f43f5e, #ec4899); color: #fff;
+    padding: 14px 18px; border-radius: 16px; font-size: 13px; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(244,63,94,0.4); z-index: 9999;
     max-width: calc(100% - 32px); text-align: center;
+    animation: fadeUp 0.4s ease-out;
+  }
+  button:active { transform: scale(0.96); }
+  .card-shadow {
+    box-shadow: 0 20px 50px rgba(244,63,94,0.1), 0 8px 20px rgba(0,0,0,0.06);
   }
 </style>
 </head>
-<body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4"
+      style="background: radial-gradient(ellipse at 20% 20%, #fff0f3 0%, #fff8ff 50%, #f0f4ff 100%);">
 
-  <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden p-6 md:p-8 border border-rose-100 text-center relative">
+  <!-- Фоновые парящие частицы -->
+  <div id="particles"></div>
 
-    <!-- ШАГ 1 -->
-    <div id="step-1" class="step">
+  <div class="max-w-md w-full bg-white rounded-3xl border border-rose-100 text-center relative z-10 card-shadow">
+
+    <!-- Step indicator -->
+    <div id="step-dots" class="flex items-center justify-center gap-1.5 pt-5 px-6" style="display:none"></div>
+
+    <div class="p-6 md:p-8">
+
+    <!-- ════════ STEP 1: ВХОД ════════ -->
+    <div id="step-1" class="step step-in">
       <div class="flex justify-center mb-6">
-        <div id="heart-icon" class="text-rose-400 text-8xl pulse-heart cursor-pointer hover:text-rose-500 transition">🌸</div>
+        <div id="heart-icon" class="text-8xl pulse-petal cursor-pointer select-none leading-none">🌸</div>
       </div>
-      <h1 class="text-2xl font-bold mb-2 text-rose-600">Кое-что особенное для тебя...</h1>
+      <h1 class="text-2xl font-bold mb-2 gtitle">Кое-что особенное для тебя...</h1>
       <p class="text-stone-500 text-sm mb-6">Нажми на цветок, чтобы открыть это поздравление</p>
-      <div class="w-full bg-stone-100 rounded-full h-2 mb-6 hidden" id="progress-container">
-        <div class="bg-rose-400 h-2 rounded-full transition-all duration-300" id="progress-bar" style="width: 0%"></div>
+      <div class="w-full bg-stone-100 rounded-full h-3 mb-3 hidden overflow-hidden relative" id="progress-container">
+        <div class="h-full rounded-full relative overflow-hidden" id="prog-bar"
+             style="width:0%; background: linear-gradient(90deg, #f43f5e, #fb7185, #fda4af);"></div>
       </div>
-      <div id="progress-text" class="text-rose-500 font-semibold text-sm hidden">0%</div>
+      <div id="progress-text" class="text-rose-500 font-bold text-sm hidden">0%</div>
     </div>
 
-    <!-- ШАГ 2 -->
+    <!-- ════════ STEP 2: ГОТОВА? ════════ -->
     <div id="step-2" class="step hidden">
-      <h2 class="text-2xl font-bold mb-4 text-rose-600">Готова ли ты к сюрпризу? 😊</h2>
-      <p class="text-stone-600 text-sm mb-8">Этот сайт создан специально для тебя. Готова сделать первый шаг?</p>
+      <div class="text-5xl mb-5">🎉</div>
+      <h2 class="text-2xl font-bold mb-3 gtitle">Готова к сюрпризу?</h2>
+      <p class="text-stone-600 text-sm mb-8">Этот сайт создан специально для тебя.<br>Готова сделать первый шаг?</p>
       <div class="space-y-3">
-        <button onclick="nextStep(3)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-sm">Да, мне очень интересно! ✨</button>
-        <button onclick="showToast('Ничего страшного, я подожду. Нажми, когда будешь готова ☕')" class="w-full py-3 bg-stone-100 text-stone-500 rounded-xl font-semibold hover:bg-stone-200 transition">Мне нужно немного времени</button>
+        <button onclick="nextStep(3)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md text-sm">
+          Да, мне очень интересно ✨
+        </button>
+        <button onclick="showToast('Ничего страшного, я подожду. Нажми, когда будешь готова ☕')" class="w-full py-3.5 bg-stone-100 text-stone-500 rounded-xl font-semibold hover:bg-stone-200 transition text-sm">
+          Мне нужно немного времени
+        </button>
       </div>
     </div>
 
-    <!-- ШАГ 3 — ПЛЕЙЛИСТ -->
+    <!-- ════════ STEP 3: ПЛЕЙЛИСТ ════════ -->
     <div id="step-3" class="step hidden">
       <div class="flex justify-center mb-4">
-        <div class="w-20 h-20 bg-stone-900 rounded-full flex items-center justify-center border-4 border-rose-100 spin-vinyl shadow-md">
-          <div class="w-6 h-6 bg-white rounded-full"></div>
+        <div class="w-20 h-20 bg-stone-900 rounded-full flex items-center justify-center border-4 border-rose-100 vinyl-spin shadow-lg">
+          <div class="w-6 h-6 bg-white rounded-full border-2 border-stone-300"></div>
         </div>
       </div>
-      <h2 class="text-xl font-bold mb-2 text-rose-600">Музыка твоего момента 🎧</h2>
-      <p class="text-stone-500 text-xs mb-4">Собрал небольшой плейлист, который ассоциируется у меня с тобой. Включи любой трек для настроения:</p>
+      <h2 class="text-xl font-bold mb-1 gtitle">Музыка твоего момента 🎧</h2>
+      <p class="text-stone-500 text-xs mb-4">Собрал плейлист, который ассоциируется у меня с тобой:</p>
 
-      <div class="space-y-3 mb-6 text-left max-h-[260px] overflow-y-auto pr-1 custom-scroll">
+      <div class="space-y-3 mb-6 text-left max-h-[260px] overflow-y-auto pr-1 cscroll">
 
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2 hover:border-rose-200 transition">
           <div class="flex items-center justify-between gap-2">
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold text-stone-700 truncate">Хочу быть рядом</p>
@@ -95,7 +230,7 @@
           <audio id="audio-1" controls preload="none" src="Rusty%20-%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B1%D1%8B%D1%82%D1%8C%20%D1%80%D1%8F%D0%B4%D0%BE%D0%BC.mp3"></audio>
         </div>
 
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2 hover:border-rose-200 transition">
           <div class="flex items-center justify-between gap-2">
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold text-stone-700 truncate">Привет</p>
@@ -106,7 +241,7 @@
           <audio id="audio-2" controls preload="none" src="%D0%96%D0%B5%D0%BD%D1%8F%20%D0%A2%D1%80%D0%BE%D1%84%D0%B8%D0%BC%D0%BE%D0%B2%20feat.%20%D0%9A%D0%BE%D0%BC%D0%BD%D0%B0%D1%82%D0%B0%20%D0%BA%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D1%8B%20-%20%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82.mp3"></audio>
         </div>
 
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2 hover:border-rose-200 transition">
           <div class="flex items-center justify-between gap-2">
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold text-stone-700 truncate">Космосом</p>
@@ -117,7 +252,7 @@
           <audio id="audio-3" controls preload="none" src="%D0%9C%D0%B0%D1%82%D0%B2%D0%B5%D0%B9%20%D0%9A%D0%BD%D1%8F%D0%B7%D0%B5%D0%B2%20%26%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D1%8F%20%D0%9A%D0%BE%D0%BF%D1%8B%D0%BB%D0%BE%D0%B2%D0%B0%20-%20%D0%9A%D0%BE%D1%81%D0%BC%D0%BE%D1%81%D0%BE%D0%BC.mp3"></audio>
         </div>
 
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2 hover:border-rose-200 transition">
           <div class="flex items-center justify-between gap-2">
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold text-stone-700 truncate">О ней</p>
@@ -128,7 +263,7 @@
           <audio id="audio-4" controls preload="none" src="%D0%A4%D0%B0%D1%80%D0%B8%D0%BA%20%D0%9D%D0%B0%D0%B7%D0%B0%D1%80%D0%B1%D0%B0%D0%B5%D0%B2%20-%20%D0%9E%20%D0%BD%D0%B5%D0%B9.mp3"></audio>
         </div>
 
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2">
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex flex-col gap-2 hover:border-rose-200 transition">
           <div class="flex items-center justify-between gap-2">
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold text-stone-700 truncate">Голоса</p>
@@ -140,287 +275,546 @@
         </div>
 
       </div>
-
-      <button onclick="nextStep(4)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Идти дальше ➔</button>
+      <button onclick="nextStep(4)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
+        Идти дальше ➔
+      </button>
     </div>
 
-    <!-- ШАГ 4 -->
+    <!-- ════════ STEP 4: МИР vs Я ════════ -->
     <div id="step-4" class="step hidden">
-      <h2 class="text-xl font-bold mb-4 text-rose-600">Как мир видит тебя VS Как вижу тебя я</h2>
-      <div class="grid grid-cols-2 gap-4 mb-6">
+      <h2 class="text-xl font-bold mb-5 gtitle">Как мир видит тебя VS Как вижу тебя я</h2>
+      <div class="grid grid-cols-2 gap-3 mb-6">
         <div>
-          <div class="bg-rose-100 rounded-xl shadow-md w-full h-44 flex items-center justify-center text-4xl">🌍</div>
-          <p class="text-[11px] text-stone-500 mt-2">Как видит тебя мир:<br><span class="font-semibold">Просто красивая девушка</span></p>
+          <div class="bg-stone-100 rounded-2xl w-full h-44 flex flex-col items-center justify-center gap-2 shadow-inner">
+            <span class="text-4xl">🌍</span>
+            <span class="text-[10px] text-stone-400 font-semibold uppercase tracking-widest">Взгляд мира</span>
+          </div>
+          <p class="text-[11px] text-stone-500 mt-2">Просто красивая девушка</p>
         </div>
         <div>
-          <div class="bg-rose-50 rounded-xl shadow-md w-full h-44 flex items-center justify-center text-4xl border border-rose-200">💖</div>
-          <p class="text-[11px] text-rose-600 mt-2 font-semibold">Как вижу тебя я:<br><span>Мое вдохновение и главная загадка ✨</span></p>
+          <div class="rounded-2xl w-full h-44 flex flex-col items-center justify-center gap-2 shadow-sm border border-rose-100"
+               style="background: linear-gradient(135deg, #fff1f2, #fce7f3);">
+            <span class="text-4xl">💖</span>
+            <span class="text-[10px] text-rose-400 font-semibold uppercase tracking-widest">Мой взгляд</span>
+          </div>
+          <p class="text-[11px] text-rose-600 mt-2 font-semibold">Моё вдохновение и главная загадка ✨</p>
         </div>
       </div>
-      <button onclick="startTypewriter()" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Прочитать поздравление ✨</button>
+      <button onclick="startTypewriter()" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
+        Прочитать поздравление ✨
+      </button>
     </div>
 
-    <!-- ШАГ 5 — TYPEWRITER -->
+    <!-- ════════ STEP 5: ПОЗДРАВЛЕНИЕ ════════ -->
     <div id="step-5" class="step hidden">
-      <h2 class="text-2xl font-bold mb-6 text-rose-600">Несколько важных слов...</h2>
-      <div id="typewriter" class="text-stone-700 italic min-h-[160px] leading-relaxed mb-6 text-sm text-left"></div>
-      <button id="after-typewriter-btn" onclick="nextStep(6)" class="py-3 px-6 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition hidden">Посмотреть, что дальше ➔</button>
+      <div class="text-4xl mb-3">💌</div>
+      <h2 class="text-2xl font-bold mb-4 gtitle">Несколько важных слов...</h2>
+      <div id="typewriter"
+           class="text-stone-700 italic min-h-[180px] leading-relaxed text-sm text-left rounded-2xl p-5 border border-rose-100 mb-6"
+           style="background: linear-gradient(135deg, #fff5f7, #fdf2ff);"></div>
+      <button id="after-typewriter-btn" onclick="nextStep(6)" class="btn-shim py-3 px-6 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm hidden shadow-md">
+        Посмотреть, что дальше ➔
+      </button>
     </div>
 
-    <!-- ШАГ 6 -->
+    <!-- ════════ STEP 6: МАГИЧЕСКИЙ ШАР + ПУЗЫРИ ════════ -->
     <div id="step-6" class="step hidden">
-      <h2 class="text-2xl font-bold mb-2 text-rose-600">Что ждет тебя в твои 22?</h2>
-      <p class="text-stone-500 text-xs mb-6">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
+      <h2 class="text-2xl font-bold mb-1 gtitle">Что ждёт тебя в твои 22?</h2>
+      <p class="text-stone-500 text-xs mb-5">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
 
-      <div id="magic-ball" onclick="askMagicBall()" class="w-24 h-24 rounded-full mx-auto flex items-center justify-center text-4xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-indigo-950 bg-gradient-to-tr from-indigo-950 via-purple-900 to-indigo-800 text-white relative">
-        <span class="relative z-10">🔮</span>
-        <div class="absolute inset-0 rounded-full bg-indigo-500 opacity-20 blur-md animate-pulse"></div>
+      <div id="magic-ball" onclick="askMagicBall()"
+           class="w-28 h-28 rounded-full mx-auto flex items-center justify-center text-4xl cursor-pointer hover:scale-110 active:scale-95 transition duration-300 mb-4 border-4 border-indigo-950 relative select-none ball-glow"
+           style="background: linear-gradient(135deg, #1e1b4b, #4c1d95, #312e81);">
+        <span class="relative z-10 text-white">🔮</span>
+        <div class="absolute inset-0 rounded-full bg-indigo-400 opacity-15 blur-lg animate-pulse"></div>
       </div>
 
-      <div id="ball-result" class="mb-8 min-h-[50px] flex items-center justify-center">
+      <div id="ball-result" class="mb-6 min-h-[50px] flex items-center justify-center px-2">
         <p class="text-stone-400 text-xs italic">Шар ожидает твоего касания...</p>
       </div>
 
-      <p class="text-stone-600 text-xs font-semibold mb-2">Лопай парящие пузыри комплиментов! 🫧</p>
-      <p class="text-stone-400 text-[10px] mb-6">Каждый пузырь хранит твою суперсилу</p>
+      <p class="text-stone-600 text-xs font-semibold mb-1">Лопай парящие пузыри комплиментов 🫧</p>
+      <p class="text-stone-400 text-[10px] mb-5">Каждый пузырь хранит твою суперсилу</p>
 
-      <div class="flex justify-center gap-3 mb-6 relative min-h-[80px]">
-        <div onclick="popBubble(event, this, 'Твой смех мгновенно поднимает мне настроение и меняет день вокруг 🌸')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-rose-100/70 border border-rose-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧💖</div>
-        <div onclick="popBubble(event, this, 'Твой выдающийся ум и то, как интересно ты рассуждаешь о вещах 🧠')" class="float-bubble-2 bubble cursor-pointer w-14 h-14 rounded-full bg-purple-100/70 border border-purple-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧✨</div>
-        <div onclick="popBubble(event, this, 'В тебе есть редкое сочетание нежности и удивительно сильного характера 💪')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-pink-100/70 border border-pink-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧🦄</div>
-        <div onclick="popBubble(event, this, 'Твоя искренность делает тебя абсолютно уникальной среди всех остальных 🌟')" class="float-bubble-2 bubble cursor-pointer w-14 h-14 rounded-full bg-amber-100/70 border border-amber-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">🫧🌸</div>
+      <div class="flex justify-center gap-4 mb-5" style="min-height:80px">
+        <div onclick="popBubble(event, this, 'Твой смех мгновенно поднимает настроение и меняет день вокруг 🌸')"
+             class="float-bubble-1 bubble cursor-pointer w-16 h-16 rounded-full bg-rose-100 border border-rose-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition select-none">🫧💖</div>
+        <div onclick="popBubble(event, this, 'Твой выдающийся ум и то, как интересно ты рассуждаешь о вещах 🧠')"
+             class="float-bubble-2 bubble cursor-pointer w-16 h-16 rounded-full bg-purple-100 border border-purple-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition select-none">🫧✨</div>
+        <div onclick="popBubble(event, this, 'В тебе редкое сочетание нежности и удивительно сильного характера 💪')"
+             class="float-bubble-1 bubble cursor-pointer w-16 h-16 rounded-full bg-pink-100 border border-pink-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition select-none">🫧🦄</div>
+        <div onclick="popBubble(event, this, 'Твоя искренность делает тебя абсолютно уникальной 🌟')"
+             class="float-bubble-2 bubble cursor-pointer w-16 h-16 rounded-full bg-amber-100 border border-amber-200 shadow-md flex items-center justify-center text-xl hover:scale-110 active:scale-90 transition select-none">🫧🌸</div>
       </div>
 
-      <div id="compliment-display" class="hidden text-left space-y-2 mb-8 max-h-[150px] overflow-y-auto p-2 bg-stone-50 rounded-2xl border border-stone-100"></div>
+      <div id="compliment-display" class="hidden text-left space-y-2 mb-6 max-h-[150px] overflow-y-auto p-2 bg-stone-50 rounded-2xl border border-stone-100 cscroll"></div>
 
-      <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Продолжить путь ➔</button>
+      <button onclick="nextStep(7)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
+        Продолжить путь ➔
+      </button>
     </div>
 
-    <!-- ШАГ 7 — VIDEO -->
+    <!-- ════════ STEP 7: ВИДЕО (ТОЛЬКО ВИДЕО, отдельная вкладка) ════════ -->
     <div id="step-7" class="step hidden">
-      <h2 class="text-xl font-bold mb-4 text-rose-600">Открываем дверь в новый мир...</h2>
+      <div class="text-4xl mb-3">🪄</div>
+      <h2 class="text-2xl font-bold mb-2 gtitle">Покажу тебе целый мир</h2>
+      <p class="text-stone-500 text-xs mb-5 italic">"...полный сказочных красот"</p>
 
-      <div class="aspect-video w-full mb-2 bg-stone-100 rounded-xl overflow-hidden shadow-md">
+      <div class="aspect-video w-full mb-4 bg-stone-900 rounded-2xl overflow-hidden shadow-xl">
         <video id="birthday-video" class="w-full h-full object-cover"
-               controls
-               playsinline
-               webkit-playsinline
-               x-webkit-airplay="allow"
-               preload="metadata">
+               controls playsinline webkit-playsinline x-webkit-airplay="allow" preload="metadata">
           <source src="%D0%90%D0%BB%D0%B0%D0%B4%D0%B8%D0%BD.mp4" type="video/mp4">
           Ваш браузер не поддерживает встроенное видео.
         </video>
       </div>
 
-      <button id="unmute-btn" onclick="toggleMute()" class="w-full mb-6 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5">
+      <button id="unmute-btn" onclick="toggleMute()" class="w-full mb-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-xl transition flex items-center justify-center gap-1.5">
         🔇 Включить звук
       </button>
 
-      <div class="border-t border-stone-100 pt-4">
-        <h3 class="font-bold text-stone-700 text-sm mb-2">✨ Детектор твоей главной суперсилы</h3>
-        <p class="text-xs text-stone-500 mb-4">Какое твоё качество, на твой взгляд, делает окружающий мир чуточку лучше каждый день?</p>
-        <div class="space-y-2">
-          <button onclick="checkHerSuperpower(this, 'Абсолютно верно! Твоя искренность и открытая душа притягивают людей как магнит. Но на самом деле в тебе скрыто гораздо больше! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твоя редкая искренность и открытость</button>
-          <button onclick="checkHerSuperpower(this, 'Именно! Твое чувство юмора и легкая улыбка способны осветить любой хмурый день. Но это лишь малая часть твоего очарования! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твое чувство юмора и умение дарить радость</button>
-          <button onclick="checkHerSuperpower(this, 'Да! Твоя целеустремленность и острый ум по-настоящему восхищают. Но за этим стержнем скрывается еще и невероятная нежность! 🥰')" class="w-full py-2.5 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition text-left px-3">🌟 Твоя целеустремленность и внутренний стержень</button>
-        </div>
-      </div>
-      <button onclick="nextStep(8)" class="mt-6 w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Перейти к финалу ✨</button>
+      <p class="text-stone-500 text-xs italic mb-5">Это видео — символ моих чувств и того, как сильно мне хочется показать тебе чудеса этого мира 💫</p>
+
+      <button onclick="nextStep(8)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
+        Продолжить ➔
+      </button>
     </div>
 
-    <!-- ШАГ 8 -->
+    <!-- ════════ STEP 8: ДЕТЕКТОР СУПЕРСИЛЫ (отдельная вкладка) ════════ -->
     <div id="step-8" class="step hidden">
-      <h2 class="text-2xl font-bold mb-2 text-rose-600">Давай отпразднуем? 🗺️</h2>
-      <p class="text-stone-500 text-xs mb-6">Я бы очень хотел пригласить тебя провести этот праздничный день вместе. Выбери наиболее удобные для тебя варианты:</p>
+      <div class="text-4xl mb-3">✨</div>
+      <h2 class="text-2xl font-bold mb-2 gtitle">Детектор твоей суперсилы</h2>
+      <p class="text-stone-500 text-xs mb-6">Какое твоё качество делает мир чуточку лучше каждый день?</p>
+
+      <div class="space-y-3 text-left">
+        <button onclick="checkHerSuperpower(this, 'Абсолютно верно! Твоя искренность и открытая душа притягивают людей как магнит. Но в тебе скрыто гораздо больше 🥰')"
+                class="sup-btn w-full p-4 bg-stone-50 text-stone-700 rounded-2xl text-xs border-2 border-stone-100 hover:border-rose-200 transition text-left">
+          <div class="font-bold text-sm mb-1">🌟 Искренность и открытость</div>
+          <div class="text-[10px] text-stone-400">Ты не носишь маску, и это редкость</div>
+        </button>
+        <button onclick="checkHerSuperpower(this, 'Именно! Твоё чувство юмора и лёгкая улыбка способны осветить любой хмурый день 🥰')"
+                class="sup-btn w-full p-4 bg-stone-50 text-stone-700 rounded-2xl text-xs border-2 border-stone-100 hover:border-rose-200 transition text-left">
+          <div class="font-bold text-sm mb-1">😄 Чувство юмора</div>
+          <div class="text-[10px] text-stone-400">Ты умеешь дарить радость одним взглядом</div>
+        </button>
+        <button onclick="checkHerSuperpower(this, 'Да! Твоя целеустремлённость и острый ум восхищают. За стержнем скрывается невероятная нежность 🥰')"
+                class="sup-btn w-full p-4 bg-stone-50 text-stone-700 rounded-2xl text-xs border-2 border-stone-100 hover:border-rose-200 transition text-left">
+          <div class="font-bold text-sm mb-1">💪 Внутренний стержень</div>
+          <div class="text-[10px] text-stone-400">Целеустремлённость и сила воли</div>
+        </button>
+      </div>
+
+      <button onclick="nextStep(9)" class="btn-shim mt-6 w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md">
+        Дальше — самое волшебное ✨
+      </button>
+    </div>
+
+    <!-- ════════ STEP 9: ЗАГАДАЙ ЖЕЛАНИЕ (НОВЫЙ ШАГ) ════════ -->
+    <div id="step-9" class="step hidden">
+      <h2 class="text-2xl font-bold mb-2 gtitle">Загадай желание 🎂</h2>
+      <p id="wish-prompt" class="text-stone-500 text-sm mb-6">Закрой глаза, задумай желание...<br>и тапни по свече, чтобы её задуть</p>
+
+      <!-- SVG торт -->
+      <div class="flex justify-center mb-6">
+        <svg viewBox="0 0 220 250" width="220" height="250" id="cake-svg" class="cursor-pointer" onclick="blowCandle()">
+          <defs>
+            <linearGradient id="candleGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fef3c7"/>
+              <stop offset="50%" stop-color="#fde047"/>
+              <stop offset="100%" stop-color="#f59e0b"/>
+            </linearGradient>
+            <radialGradient id="flameGrad" cx="0.5" cy="0.6" r="0.5">
+              <stop offset="0%" stop-color="#fffbeb"/>
+              <stop offset="30%" stop-color="#fef08a"/>
+              <stop offset="60%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="tier1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fce7f3"/>
+              <stop offset="100%" stop-color="#f9a8d4"/>
+            </linearGradient>
+            <linearGradient id="tier2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fbcfe8"/>
+              <stop offset="100%" stop-color="#f472b6"/>
+            </linearGradient>
+            <linearGradient id="tier3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f9a8d4"/>
+              <stop offset="100%" stop-color="#ec4899"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Тень -->
+          <ellipse cx="110" cy="232" rx="90" ry="6" fill="rgba(0,0,0,0.12)"/>
+
+          <!-- Нижний ярус -->
+          <rect x="20" y="170" width="180" height="60" rx="4" fill="url(#tier1)"/>
+          <rect x="20" y="170" width="180" height="8" fill="white" opacity="0.4"/>
+          <!-- Глазурь капельками -->
+          <path d="M 20 178 Q 30 195 40 178 Q 50 200 60 178 Q 70 195 80 178 Q 90 200 100 178 Q 110 195 120 178 Q 130 200 140 178 Q 150 195 160 178 Q 170 200 180 178 Q 190 195 200 178 L 200 170 L 20 170 Z" fill="white" opacity="0.6"/>
+          <!-- Посыпка -->
+          <circle cx="40" cy="200" r="2" fill="#ec4899"/>
+          <circle cx="70" cy="210" r="2" fill="#a855f7"/>
+          <circle cx="100" cy="195" r="2" fill="#f59e0b"/>
+          <circle cx="130" cy="215" r="2" fill="#ec4899"/>
+          <circle cx="160" cy="200" r="2" fill="#a855f7"/>
+          <circle cx="180" cy="218" r="2" fill="#f59e0b"/>
+
+          <!-- Средний ярус -->
+          <rect x="45" y="120" width="130" height="50" rx="3" fill="url(#tier2)"/>
+          <rect x="45" y="120" width="130" height="6" fill="white" opacity="0.4"/>
+          <path d="M 45 126 Q 53 142 61 126 Q 69 145 77 126 Q 85 142 93 126 Q 101 145 109 126 Q 117 142 125 126 Q 133 145 141 126 Q 149 142 157 126 Q 165 145 175 126 L 175 120 L 45 120 Z" fill="white" opacity="0.55"/>
+
+          <!-- Верхний ярус -->
+          <rect x="70" y="80" width="80" height="40" rx="3" fill="url(#tier3)"/>
+          <rect x="70" y="80" width="80" height="5" fill="white" opacity="0.4"/>
+          <path d="M 70 85 Q 78 99 86 85 Q 94 100 102 85 Q 110 99 118 85 Q 126 100 134 85 Q 142 99 150 85 L 150 80 L 70 80 Z" fill="white" opacity="0.5"/>
+
+          <!-- Свеча -->
+          <rect x="104" y="50" width="12" height="30" fill="url(#candleGrad)" rx="1"/>
+          <ellipse cx="110" cy="50" rx="6" ry="2" fill="#fbbf24"/>
+
+          <!-- Фитиль -->
+          <line x1="110" y1="44" x2="110" y2="50" stroke="#3f2107" stroke-width="1.5"/>
+
+          <!-- Дым (изначально скрыт) -->
+          <circle id="smoke-1" cx="108" cy="40" r="3" fill="rgba(120,120,120,0.5)" opacity="0"/>
+          <circle id="smoke-2" cx="112" cy="35" r="2.5" fill="rgba(120,120,120,0.4)" opacity="0"/>
+
+          <!-- Пламя -->
+          <g id="cake-flame">
+            <ellipse cx="110" cy="32" rx="7" ry="13" fill="url(#flameGrad)" opacity="0.9"/>
+            <ellipse cx="110" cy="35" rx="3.5" ry="7" fill="#fef3c7"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Сообщение после задувания -->
+      <div id="wish-result" class="hidden mb-6">
+        <div class="bg-gradient-to-r from-rose-50 via-pink-50 to-purple-50 border border-rose-100 rounded-2xl p-5 shadow-inner animate-fade-up">
+          <p class="text-rose-600 font-bold text-sm mb-2">Желание принято ✨</p>
+          <p class="text-stone-600 text-xs italic">Пусть оно обязательно сбудется. А я постараюсь сделать всё, что в моих силах, чтобы тебе его осуществить 💕</p>
+        </div>
+      </div>
+
+      <button id="wish-continue" onclick="nextStep(10)" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition text-sm shadow-md hidden">
+        Перейти к финалу 💌
+      </button>
+    </div>
+
+    <!-- ════════ STEP 10: ФИНАЛ ════════ -->
+    <div id="step-10" class="step hidden">
+      <div class="text-5xl mb-3">🎊</div>
+      <h2 class="text-2xl font-bold mb-2 gtitle">Давай отпразднуем? 🗺️</h2>
+      <p class="text-stone-500 text-xs mb-6">Хочу пригласить тебя провести этот день вместе. Выбери удобные варианты:</p>
 
       <form id="celebration-form" onsubmit="sendToWhatsApp(event)" class="space-y-4 text-left">
         <div>
-          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Какой день тебе больше подходит?</label>
-          <select id="day-choice" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Какой день подходит?</label>
+          <select id="day-choice" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300">
             <option>Пятница 📅</option><option>Суббота 📅</option><option>Воскресенье 📅</option>
           </select>
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Куда бы ты хотела отправиться?</label>
-          <select id="option" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Куда отправимся?</label>
+          <select id="option" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300">
             <option>Выставка Леонардо да Винчи 🎨</option>
             <option>Кино-ресторан 🎬🍿</option>
             <option>Ужин в ресторане 🍽️</option>
           </select>
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Примерное время встречи (в формате 24ч):</label>
-          <input type="time" id="time" value="18:30" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Время встречи:</label>
+          <input type="time" id="time" value="18:30" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300">
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Особые пожелания или капризы:</label>
-          <textarea id="notes" placeholder="Например: хочу сладкую вату, попкорн или определенные цветы..." rows="2" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300"></textarea>
+          <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1.5 tracking-widest">Особые пожелания:</label>
+          <textarea id="notes" placeholder="Например: хочу сладкую вату, попкорн или определённые цветы..." rows="2" class="w-full p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 resize-none"></textarea>
         </div>
-        <button type="submit" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Поделиться планами на вечер! 💌</button>
+        <button type="submit" class="btn-shim w-full py-3.5 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-lg text-sm">
+          Поделиться планами на вечер 💌
+        </button>
       </form>
     </div>
 
+    </div>
   </div>
 
-  <script>
-    let currentStep = 1;
+<script>
+  // Safe confetti wrapper — на случай если CDN заблокирован
+  function safeConfetti(opts) {
+    if (typeof confetti !== 'undefined') {
+      try { confetti(opts); } catch(e) { console.warn('confetti err:', e); }
+    }
+  }
 
-    function nextStep(stepNum) {
-      document.querySelectorAll("audio").forEach(m => m.pause());
-      const video = document.getElementById("birthday-video");
-      if (video) video.pause();
+  const TOTAL_STEPS = 10;
+  let currentStep = 1;
 
-      document.querySelectorAll(".step").forEach(el => el.classList.add("hidden"));
-      document.getElementById("step-" + stepNum).classList.remove("hidden");
-      currentStep = stepNum;
+  // ─── STEP ENGINE ───
+  function nextStep(stepNum) {
+    document.querySelectorAll("audio").forEach(m => m.pause());
+    const video = document.getElementById("birthday-video");
+    if (video) video.pause();
 
-      if (stepNum === 7) {
-        if (video) {
-          video.muted = true;
-          video.currentTime = 0;
-          const unmuteBtn = document.getElementById("unmute-btn");
-          if (unmuteBtn) unmuteBtn.innerHTML = "🔇 Включить звук";
-          video.play().catch(err => console.log("Autoplay blocked:", err));
-        }
-      }
+    document.querySelectorAll(".step").forEach(el => {
+      el.classList.add("hidden");
+      el.classList.remove("step-in");
+    });
+    const target = document.getElementById("step-" + stepNum);
+    if (target) {
+      target.classList.remove("hidden");
+      void target.offsetWidth;
+      target.classList.add("step-in");
+    }
+    currentStep = stepNum;
+    updateDots(stepNum);
+    if (stepNum > 1) document.getElementById("step-dots").style.display = "flex";
 
-      if (stepNum === 8) {
-        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+    if (stepNum === 7) {
+      if (video) {
+        video.muted = true;
+        video.currentTime = 0;
+        const btn = document.getElementById("unmute-btn");
+        if (btn) btn.innerHTML = "🔇 Включить звук";
+        video.play().catch(() => {});
       }
     }
-
-    function toggleMute() {
-      const video = document.getElementById("birthday-video");
-      const btn = document.getElementById("unmute-btn");
-      if (video && btn) {
-        video.muted = !video.muted;
-        btn.innerHTML = video.muted ? "🔇 Включить звук" : "🔊 Выключить звук";
-      }
+    if (stepNum === 10) {
+      safeConfetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
     }
+  }
 
-    function restartAudio(id) {
-      const audio = document.getElementById(id);
-      if (audio) { audio.currentTime = 0; audio.play(); }
+  // ─── STEP DOTS ───
+  function initDots() {
+    const wrap = document.getElementById("step-dots");
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const d = document.createElement("div");
+      d.className = "sdot";
+      d.id = "dot-" + i;
+      wrap.appendChild(d);
     }
+  }
+  function updateDots(active) {
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const d = document.getElementById("dot-" + i);
+      if (!d) continue;
+      d.className = "sdot";
+      if (i < active) d.classList.add("done");
+      if (i === active) d.classList.add("active");
+    }
+  }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const audios = document.querySelectorAll("audio");
-      audios.forEach(audio => {
-        audio.addEventListener("play", () => {
-          audios.forEach(other => { if (other !== audio) other.pause(); });
-        });
+  // ─── AUDIO mutual pause ───
+  function restartAudio(id) {
+    const a = document.getElementById(id);
+    if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    initDots();
+    const audios = document.querySelectorAll("audio");
+    audios.forEach(audio => {
+      audio.addEventListener("play", () => {
+        audios.forEach(other => { if (other !== audio) other.pause(); });
       });
     });
+    startParticles();
+  });
 
-    document.getElementById("heart-icon").addEventListener("click", function() {
-      this.classList.add("hidden");
-      document.getElementById("progress-container").classList.remove("hidden");
-      document.getElementById("progress-text").classList.remove("hidden");
+  // ─── VIDEO ───
+  function toggleMute() {
+    const v = document.getElementById("birthday-video");
+    const btn = document.getElementById("unmute-btn");
+    if (v && btn) {
+      v.muted = !v.muted;
+      btn.innerHTML = v.muted ? "🔇 Включить звук" : "🔊 Выключить звук";
+    }
+  }
 
-      let progress = 0;
-      const bar = document.getElementById("progress-bar");
-      const txt = document.getElementById("progress-text");
+  // ─── FLOWER CLICK ───
+  document.getElementById("heart-icon").addEventListener("click", function() {
+    this.classList.add("hidden");
+    document.getElementById("progress-container").classList.remove("hidden");
+    document.getElementById("progress-text").classList.remove("hidden");
+    let p = 0;
+    const bar = document.getElementById("prog-bar");
+    const txt = document.getElementById("progress-text");
+    const iv = setInterval(() => {
+      p += 2;
+      bar.style.width = p + "%";
+      txt.textContent = p + "%";
+      if (p >= 100) { clearInterval(iv); setTimeout(() => nextStep(2), 400); }
+    }, 25);
+  });
 
-      const interval = setInterval(() => {
-        progress += 2;
-        bar.style.width = progress + "%";
-        txt.innerText = progress + "%";
-        if (progress >= 100) {
-          clearInterval(interval);
-          setTimeout(() => nextStep(2), 400);
-        }
-      }, 30);
-    });
-
-    function startTypewriter() {
-      nextStep(5);
-      const text = "С днем рождения! 🌸 Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает ✨. Я безумно рад нашему теплому общению, твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром. Пусть этот день станет началом самого счастливого года в твоей жизни 💕, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
-      const container = document.getElementById("typewriter");
-      // FIX: Array.from корректно делит строку по Unicode code points,
-      // не разрезая эмодзи (surrogate pairs) пополам.
-      const chars = Array.from(text);
-      let index = 0;
-      container.innerHTML = "";
-
-      function type() {
-        if (index < chars.length) {
-          container.append(chars[index]);
-          index++;
-          setTimeout(type, 35);
-        } else {
-          document.getElementById("after-typewriter-btn").classList.remove("hidden");
-        }
+  // ─── TYPEWRITER (новый текст, без "теплого общения") ───
+  function startTypewriter() {
+    nextStep(5);
+    const text = "С днем рождения! 🌸 Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает ✨. В тебе чувствуется та редкая, вдохновляющая энергия, которой ты освещаешь всё вокруг. Пусть этот день станет началом самого счастливого года в твоей жизни 💕, а каждое твоё утро будет хоть немного волшебным.";
+    const container = document.getElementById("typewriter");
+    container.innerHTML = "";
+    const cur = document.createElement("span");
+    cur.className = "tw-cursor";
+    container.appendChild(cur);
+    const chars = Array.from(text);
+    let i = 0;
+    function type() {
+      if (i >= chars.length) {
+        if (container.contains(cur)) cur.remove();
+        document.getElementById("after-typewriter-btn").classList.remove("hidden");
+        return;
       }
-      setTimeout(type, 300);
+      // Курсор больше не в DOM — пользователь ушёл на другой шаг
+      if (!container.contains(cur)) return;
+      const ch = chars[i++];
+      container.insertBefore(document.createTextNode(ch), cur);
+      const isEmoji = ch.codePointAt(0) > 0xFFFF;
+      setTimeout(type, isEmoji ? 90 : 30);
     }
+    setTimeout(type, 300);
+  }
 
-    function askMagicBall() {
-      const ball = document.getElementById("magic-ball");
-      const resultDiv = document.getElementById("ball-result");
-      ball.classList.add("animate-shake");
-      resultDiv.innerHTML = '<p class="text-indigo-400 text-xs animate-pulse">Шар считывает твою энергетику... ⚡</p>';
-      setTimeout(() => {
-        ball.classList.remove("animate-shake");
-        const predictions = [
-          "Тебя ждут уютные встречи и очень много искреннего смеха! ✨",
-          "Событие, которое безумно тебя удивит в самый неожиданный момент! 🎁",
-          "Успешное достижение твоих главных целей и новых вершин! 🏔️",
-          "Много тепла, внимания и поддержки от близких людей! 🤗"
-        ];
-        const p = predictions[Math.floor(Math.random() * predictions.length)];
-        resultDiv.innerHTML = `<div class="bg-indigo-50 text-indigo-950 border border-indigo-100 rounded-2xl p-3 text-xs font-semibold animate-bounce shadow-inner w-full">${p}</div>`;
-        confetti({ particleCount: 20, angle: 90, spread: 40, origin: { y: 0.6 } });
-      }, 800);
-    }
+  // ─── MAGIC BALL ───
+  function askMagicBall() {
+    const ball = document.getElementById("magic-ball");
+    const res = document.getElementById("ball-result");
+    ball.style.pointerEvents = "none";
+    ball.classList.add("animate-shake");
+    res.innerHTML = '<p class="text-indigo-400 text-xs animate-pulse">Шар считывает твою энергетику... ⚡</p>';
+    setTimeout(() => {
+      ball.classList.remove("animate-shake");
+      ball.style.pointerEvents = "auto";
+      const preds = [
+        "Тебя ждут уютные встречи и очень много искреннего смеха ✨",
+        "Событие, которое безумно тебя удивит в самый неожиданный момент 🎁",
+        "Успешное достижение твоих главных целей и новых вершин 🏔️",
+        "Много тепла, внимания и поддержки от близких людей 🤗",
+        "Новое увлечение, которое принесёт невероятное вдохновение 💫",
+        "Путешествие, которое изменит твой взгляд на мир 🗺️"
+      ];
+      const p = preds[Math.floor(Math.random() * preds.length)];
+      res.innerHTML = `<div class="w-full animate-fade-up rounded-2xl p-3.5 text-xs font-semibold shadow-inner border border-indigo-100 text-indigo-900" style="background:linear-gradient(135deg,#eef2ff,#f5f3ff)">${p}</div>`;
+      safeConfetti({ particleCount: 25, angle: 90, spread: 45, origin: { y: 0.55 } });
+    }, 800);
+  }
 
-    function popBubble(event, element, complimentText) {
-      const x = event.clientX / window.innerWidth;
-      const y = event.clientY / window.innerHeight;
-      confetti({ particleCount: 25, spread: 40, origin: { x, y }, colors: ["#f43f5e","#fda4af","#fecdd3","#c084fc"] });
-      element.classList.add("scale-150", "opacity-0");
-      element.style.pointerEvents = "none";
-      setTimeout(() => element.style.display = "none", 300);
-      const displayCard = document.getElementById("compliment-display");
-      displayCard.classList.remove("hidden");
-      const newMsg = document.createElement("div");
-      newMsg.className = "bg-rose-50 border border-rose-100 text-rose-700 text-[11px] p-2.5 rounded-xl mb-1.5 animate-fade-in font-medium shadow-sm flex items-center gap-1.5";
-      newMsg.innerHTML = `<span>✨</span> <span>${complimentText}</span>`;
-      displayCard.appendChild(newMsg);
-      displayCard.scrollTop = displayCard.scrollHeight;
-    }
+  // ─── BUBBLES ───
+  function popBubble(event, el, text) {
+    const x = event.clientX / window.innerWidth;
+    const y = event.clientY / window.innerHeight;
+    safeConfetti({ particleCount: 30, spread: 45, origin: { x, y }, colors: ["#f43f5e", "#fda4af", "#fecdd3", "#c084fc"] });
+    el.style.transition = "transform 0.25s, opacity 0.25s";
+    el.style.transform = "scale(1.6)";
+    el.style.opacity = "0";
+    el.style.pointerEvents = "none";
+    setTimeout(() => el.style.display = "none", 250);
+    const box = document.getElementById("compliment-display");
+    box.classList.remove("hidden");
+    const msg = document.createElement("div");
+    msg.className = "bg-rose-50 border border-rose-100 text-rose-700 text-[11px] p-2.5 rounded-xl mb-1.5 animate-fade-up font-medium shadow-sm flex items-start gap-1.5";
+    msg.innerHTML = `<span class="shrink-0">✨</span><span>${text}</span>`;
+    box.appendChild(msg);
+    box.scrollTop = box.scrollHeight;
+  }
 
-    function checkHerSuperpower(btn, message) {
-      const buttons = btn.parentElement.querySelectorAll("button");
-      buttons.forEach(b => {
-        b.classList.remove("bg-rose-50","border-rose-300","text-rose-700");
-        b.classList.add("bg-stone-50","text-stone-700","border-stone-200");
-      });
-      btn.classList.remove("bg-stone-50","text-stone-700","border-stone-200");
-      btn.classList.add("bg-rose-50","border-rose-300","text-rose-700");
-      confetti({ particleCount: 55, spread: 60, origin: { y: 0.8 } });
-      showToast(message);
-    }
+  // ─── SUPERPOWER (на отдельной вкладке теперь) ───
+  function checkHerSuperpower(btn, message) {
+    document.querySelectorAll(".sup-btn").forEach(b => {
+      b.classList.remove("bg-rose-50", "border-rose-300");
+      b.classList.add("bg-stone-50", "border-stone-100");
+    });
+    btn.classList.remove("bg-stone-50", "border-stone-100");
+    btn.classList.add("bg-rose-50", "border-rose-300");
+    safeConfetti({ particleCount: 60, spread: 65, origin: { y: 0.8 } });
+    showToast(message);
+  }
 
-    function showToast(msg) {
-      const old = document.getElementById("toast");
-      if (old) old.remove();
-      const t = document.createElement("div");
-      t.id = "toast";
-      t.textContent = msg;
-      document.body.appendChild(t);
-      setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .4s"; setTimeout(() => t.remove(), 400); }, 3500);
-    }
+  // ─── ТОРТ / ЗАГАДАЙ ЖЕЛАНИЕ ───
+  let wishMade = false;
+  function blowCandle() {
+    if (wishMade) return;
+    wishMade = true;
+    const flame = document.getElementById("cake-flame");
+    const s1 = document.getElementById("smoke-1");
+    const s2 = document.getElementById("smoke-2");
 
-    function sendToWhatsApp(event) {
-      event.preventDefault();
-      const myPhoneNumber = "77071234567";  // ← ЗАМЕНИ НА СВОЙ НОМЕР
-      const dayChoice = document.getElementById("day-choice").value;
-      const option = document.getElementById("option").value;
-      const time = document.getElementById("time").value;
-      const notes = document.getElementById("notes").value;
-      const text = `Привет! Прошла твой праздничный квест ✨\n\nВот мои пожелания по встрече:\n📅 Удобный день: ${dayChoice}\n📍 Куда сходим: ${option}\n⏰ Примерное время: ${time}\n💭 Особые пожелания: ${notes || 'Особых капризов нет, жду встречи!'}`;
-      window.open(`https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(text)}`, "_blank");
+    flame.classList.add("out");
+
+    // Дым поднимается
+    setTimeout(() => {
+      s1.style.transition = "opacity 0.3s, transform 1.5s ease-out";
+      s2.style.transition = "opacity 0.3s, transform 1.8s ease-out";
+      s1.style.opacity = "0.6";
+      s2.style.opacity = "0.5";
+      s1.style.transform = "translateY(-50px) scale(2)";
+      s2.style.transform = "translateY(-60px) scale(2.5)";
+      setTimeout(() => { s1.style.opacity = "0"; s2.style.opacity = "0"; }, 1200);
+    }, 500);
+
+    // Конфетти
+    setTimeout(() => {
+      safeConfetti({ particleCount: 120, spread: 90, origin: { y: 0.5 }, colors: ["#f43f5e", "#ec4899", "#fbcfe8", "#fde047", "#a855f7"] });
+    }, 700);
+
+    // Сообщение
+    setTimeout(() => {
+      document.getElementById("wish-prompt").innerHTML = "Свеча задута, желание услышано 💫";
+      document.getElementById("wish-result").classList.remove("hidden");
+      document.getElementById("wish-continue").classList.remove("hidden");
+      document.getElementById("cake-svg").style.cursor = "default";
+    }, 1100);
+
+    // Второй залп конфетти
+    setTimeout(() => {
+      safeConfetti({ particleCount: 60, spread: 60, origin: { y: 0.6 }, colors: ["#f43f5e", "#ec4899"] });
+    }, 1500);
+  }
+
+  // ─── TOAST ───
+  function showToast(msg) {
+    const old = document.getElementById("toast");
+    if (old) old.remove();
+    const t = document.createElement("div");
+    t.id = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => {
+      t.style.transition = "opacity 0.4s";
+      t.style.opacity = "0";
+      setTimeout(() => t.remove(), 400);
+    }, 4000);
+  }
+
+  // ─── ФОНОВЫЕ ЧАСТИЦЫ ───
+  function startParticles() {
+    const layer = document.getElementById("particles");
+    const emojis = ["🌸", "✨", "💫", "💗", "⭐"];
+    function spawn() {
+      const el = document.createElement("span");
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      const size = 10 + Math.random() * 10;
+      const dur = 8 + Math.random() * 6;
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.fontSize = size + "px";
+      el.style.animationDuration = dur + "s";
+      layer.appendChild(el);
+      setTimeout(() => el.remove(), (dur + 1) * 1000);
     }
-  </script>
+    // Запустить сразу несколько
+    for (let i = 0; i < 4; i++) setTimeout(spawn, i * 800);
+    // И продолжать
+    setInterval(spawn, 2000);
+  }
+
+  // ─── WHATSAPP ───
+  function sendToWhatsApp(event) {
+    event.preventDefault();
+    const phone = "77071234567"; // ← ЗАМЕНИ НА СВОЙ
+    const day = document.getElementById("day-choice").value;
+    const opt = document.getElementById("option").value;
+    const time = document.getElementById("time").value;
+    const notes = document.getElementById("notes").value;
+    const text = `Привет! Прошла твой праздничный квест ✨\n\n📅 Удобный день: ${day}\n📍 Куда сходим: ${opt}\n⏰ Время: ${time}\n💭 Пожелания: ${notes || 'Особых капризов нет, жду встречи!'}`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, "_blank");
+  }
+</script>
 </body>
 </html>
