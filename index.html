@@ -3,152 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>С Днем Рождения! 💖</title>
-    <!-- Подключаем Tailwind CSS для красивого дизайна -->
+    <title>С Днем Рождения! ✨</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Библиотека для эффекта конфетти -->
+    <!-- Эффект конфетти -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @keyframes pulse-slow {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
         }
-        .pulse-heart { animation: pulse-slow 2s infinite; }
+        .pulse-heart { animation: pulse-slow 2.5s infinite; }
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        .spin-vinyl { animation: spin-slow 4s infinite linear; }
+        .spin-vinyl { animation: spin-slow 8s infinite linear; }
     </style>
 </head>
-<body class="bg-pink-50 text-gray-800 font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex items-center justify-center p-4">
 
-    <!-- Аудио плеер (скрытый, запустится после первого клика) -->
-    <!-- Замените ссылку ниже на прямую ссылку на вашу музыку (mp3) -->
-    <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden p-6 md:p-8 border border-rose-100 text-center relative">
 
-    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden p-6 md:p-8 border border-pink-100 text-center relative">
-
-        <!-- ШАГ 1: ЗАГРУЗКА И СЕРДЦЕ -->
+        <!-- ШАГ 1: ИНТРИГА И ЗАГРУЗКА -->
         <div id="step-1" class="step">
             <div class="flex justify-center mb-6">
-                <div id="heart-icon" class="text-red-500 text-8xl pulse-heart cursor-pointer">❤️</div>
+                <div id="heart-icon" class="text-rose-400 text-8xl pulse-heart cursor-pointer hover:text-rose-500 transition">🌸</div>
             </div>
-            <h1 class="text-2xl font-bold mb-2 text-pink-600">Кое-что особенное для тебя...</h1>
-            <p class="text-gray-500 mb-6">Нажми на сердце, чтобы начать загрузку сюрприза</p>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6 hidden" id="progress-container">
-                <div class="bg-pink-500 h-2.5 rounded-full" id="progress-bar" style="width: 0%"></div>
+            <h1 class="text-2xl font-bold mb-2 text-rose-600">Кое-что особенное для тебя...</h1>
+            <p class="text-stone-500 text-sm mb-6">Нажми на цветок, чтобы открыть это поздравление</p>
+            <div class="w-full bg-stone-100 rounded-full h-2 mb-6 hidden" id="progress-container">
+                <div class="bg-rose-400 h-2 rounded-full transition-all duration-300" id="progress-bar" style="width: 0%"></div>
             </div>
-            <div id="progress-text" class="text-pink-600 font-semibold hidden">0%</div>
+            <div id="progress-text" class="text-rose-500 font-semibold text-sm hidden">0%</div>
         </div>
 
         <!-- ШАГ 2: ДЕТЕКТОР НАСТРОЕНИЯ -->
         <div id="step-2" class="step hidden">
-            <h2 class="text-2xl font-bold mb-4 text-pink-600">Детектор настроения 🧐</h2>
-            <p class="text-gray-600 mb-8">Готова ли ты открыть дверь в мир поздравлений и сюрпризов?</p>
+            <h2 class="text-2xl font-bold mb-4 text-rose-600">Готова ли ты к сюрпризу? 😊</h2>
+            <p class="text-stone-600 text-sm mb-8">Этот сайт создан специально для тебя. Готова сделать первый шаг?</p>
             <div class="space-y-3">
-                <button onclick="nextStep(3)" class="w-full py-3 bg-pink-500 text-white rounded-xl font-bold hover:bg-pink-600 transition">Да, я готова на все 100%! ✨</button>
-                <button onclick="alert('Эй, ну соберись! Попробуй еще раз 😊')" class="w-full py-3 bg-gray-100 text-gray-500 rounded-xl font-semibold hover:bg-gray-200 transition">Мне нужно время...</button>
+                <button onclick="nextStep(3)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-sm">Да, мне очень интересно! ✨</button>
+                <button onclick="alert('Ничего страшного, я подожду. Нажми, когда выспишься или будешь готова ☕')" class="w-full py-3 bg-stone-100 text-stone-500 rounded-xl font-semibold hover:bg-stone-200 transition">Мне нужно немного времени</button>
             </div>
         </div>
 
-        <!-- ШАГ 3: МУЗЫКА И ИИ-ПОРТРЕТЫ -->
+        <!-- ШАГ 3: ПЛЕЙЛИСТ ДЛЯ ТЕБЯ -->
         <div id="step-3" class="step hidden">
             <div class="flex justify-center mb-4">
-                <div class="w-24 h-24 bg-gray-900 rounded-full flex items-center justify-center border-4 border-pink-200 spin-vinyl">
-                    <div class="w-8 h-8 bg-white rounded-full"></div>
+                <div class="w-20 h-20 bg-stone-900 rounded-full flex items-center justify-center border-4 border-rose-100 spin-vinyl shadow-md">
+                    <div class="w-6 h-6 bg-white rounded-full"></div>
                 </div>
             </div>
-            <p class="text-xs text-pink-400 font-semibold mb-6">Саундтрек нашего момента запущен 🎵</p>
+            <h2 class="text-xl font-bold mb-2 text-rose-600">Музыка твоего момента 🎧</h2>
+            <p class="text-stone-500 text-xs mb-6">Собрал небольшой плейлист, который ассоциируется у меня с тобой. Включи любой трек для настроения, пока читаешь дальше:</p>
             
-            <h2 class="text-xl font-bold mb-4 text-pink-600">Как мир видит тебя VS Как вижу тебя я</h2>
+            <!-- Интерактивный плеер -->
+            <div class="space-y-3 mb-6 text-left">
+                <!-- Трек 1 -->
+                <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-stone-700">Особое настроение</p>
+                        <p class="text-[10px] text-stone-400">Наш атмосферный трек</p>
+                    </div>
+                    <audio class="w-40 h-8" controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                </div>
+                <!-- Трек 2 -->
+                <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-stone-700">Тёплый вечер</p>
+                        <p class="text-[10px] text-stone-400">Для хороших мыслей</p>
+                    </div>
+                    <audio class="w-40 h-8" controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+                </div>
+            </div>
+
+            <button onclick="nextStep(4)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Идти дальше ➔</button>
+        </div>
+
+        <!-- ШАГ 4: КАК Я ТЕБЯ ВИЖУ -->
+        <div id="step-4" class="step hidden">
+            <h2 class="text-xl font-bold mb-4 text-rose-600">Как мир видит тебя VS Как вижу тебя я</h2>
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                    <!-- Замените на ваши фото -->
-                    <img src="https://placehold.co/300x400/fecdd3/e11d48?text=Мир" class="rounded-xl shadow-md w-full h-40 object-cover" alt="Мир">
-                    <p class="text-xs text-gray-500 mt-2">Как видит мир</p>
+                    <!-- Ссылка на фото (замените на свою) -->
+                    <img src="https://placehold.co/300x400/fecdd3/e11d48?text=Взгляд+мира" class="rounded-xl shadow-md w-full h-44 object-cover" alt="Мир">
+                    <p class="text-[11px] text-stone-500 mt-2">Как видит тебя мир:<br><span class="font-semibold">Просто красивая девушка</span></p>
                 </div>
                 <div>
-                    <!-- Замените на ваши фото -->
-                    <img src="https://placehold.co/300x400/fbcfe8/db2777?text=Я" class="rounded-xl shadow-md w-full h-40 object-cover" alt="Я">
-                    <p class="text-xs text-pink-600 font-semibold mt-2">Как вижу я ❤️</p>
+                    <!-- Ссылка на фото (замените на свою) -->
+                    <img src="https://placehold.co/300x400/ffe4e6/f43f5e?text=Мой+взгляд" class="rounded-xl shadow-md w-full h-44 object-cover" alt="Я">
+                    <p class="text-[11px] text-rose-600 mt-2 font-semibold">Как вижу тебя я:<br><span>Мое вдохновение и главная загадка ✨</span></p>
                 </div>
             </div>
-            <button onclick="startTypewriter()" class="py-3 px-6 bg-pink-500 text-white rounded-xl font-bold hover:bg-pink-600 transition">Послушать поздравление ➔</button>
+            <button onclick="startTypewriter()" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Прочитать поздравление ✨</button>
         </div>
 
-        <!-- ШАГ 4: ТЕКСТ ПОЗДРАВЛЕНИЯ -->
-        <div id="step-4" class="step hidden">
-            <h2 class="text-2xl font-bold mb-6 text-pink-600">Мое сердце говорит...</h2>
-            <div id="typewriter" class="text-lg text-gray-700 italic min-h-[150px] leading-relaxed mb-6"></div>
-            <button id="after-typewriter-btn" onclick="nextStep(5)" class="py-3 px-6 bg-pink-500 text-white rounded-xl font-bold hover:bg-pink-600 transition hidden">Что дальше? 🔮</button>
-        </div>
-
-        <!-- ШАГ 5: МАГИЧЕСКИЙ ШАР И КОМПЛИМЕНТЫ -->
+        <!-- ШАГ 5: ТЕКСТ ПОЗДРАВЛЕНИЯ -->
         <div id="step-5" class="step hidden">
-            <h2 class="text-2xl font-bold mb-2 text-pink-600">Что нас ждет в твои 22?</h2>
-            <p class="text-gray-500 text-sm mb-6">Нажми на шар, чтобы узнать предсказание</p>
+            <h2 class="text-2xl font-bold mb-6 text-rose-600">Несколько важных слов...</h2>
+            <div id="typewriter" class="text-stone-700 italic min-h-[160px] leading-relaxed mb-6 text-sm text-left"></div>
+            <button id="after-typewriter-btn" onclick="nextStep(6)" class="py-3 px-6 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition hidden">Посмотреть, что дальше ➔</button>
+        </div>
+
+        <!-- ШАГ 6: МАГИЧЕСКИЙ ШАР И КОМПЛИМЕНТЫ -->
+        <div id="step-6" class="step hidden">
+            <h2 class="text-2xl font-bold mb-2 text-rose-600">Что ждет тебя в твои 22?</h2>
+            <p class="text-stone-500 text-xs mb-6">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
             
-            <div onclick="askMagicBall()" class="w-28 h-28 bg-indigo-950 text-white rounded-full mx-auto flex items-center justify-center text-3xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-indigo-900">
+            <div onclick="askMagicBall()" class="w-24 h-24 bg-stone-900 text-white rounded-full mx-auto flex items-center justify-center text-3xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-stone-800">
                 🔮
             </div>
-            <div id="ball-result" class="text-pink-600 font-semibold mb-6 h-8 text-sm"></div>
+            <div id="ball-result" class="text-rose-600 font-semibold mb-6 h-8 text-sm"></div>
 
-            <p class="text-gray-600 text-sm mb-3">Лопни пузырьки-комплименты:</p>
+            <p class="text-stone-600 text-xs mb-3">Несколько вещей, которые меня в тебе восхищают (нажимай, чтобы открыть):</p>
             <div class="flex flex-wrap justify-center gap-2 mb-8">
-                <button onclick="popBubble(this, 'Ты делаешь меня счастливым')" class="px-3 py-1.5 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold hover:bg-pink-200 transition">🎈 Твоя улыбка</button>
-                <button onclick="popBubble(this, 'Самая стильная и красивая')" class="px-3 py-1.5 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold hover:bg-pink-200 transition">🎈 Твой стиль</button>
-                <button onclick="popBubble(this, 'Твой ум меня восхищает')" class="px-3 py-1.5 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold hover:bg-pink-200 transition">🎈 Твой ум</button>
-                <button onclick="popBubble(this, 'Обожаю твой смех')" class="px-3 py-1.5 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold hover:bg-pink-200 transition">🎈 Твой смех</button>
+                <button onclick="popBubble(this, 'Твой смех мгновенно поднимает мне настроение')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твой смех</button>
+                <button onclick="popBubble(this, 'Твой ум и то, как интересно ты рассуждаешь об этом мире')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твой разум</button>
+                <button onclick="popBubble(this, 'В тебе есть редкое сочетание нежности и сильного характера')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твой характер</button>
+                <button onclick="popBubble(this, 'Твоя искренность делает тебя особенной среди всех')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твоя искренность</button>
             </div>
 
-            <button onclick="nextStep(6)" class="py-3 px-6 bg-pink-500 text-white rounded-xl font-bold hover:bg-pink-600 transition">Открыть дверь в новый мир 🚪</button>
+            <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Продолжить ➔</button>
         </div>
 
-        <!-- ШАГ 6: ОТКРЫТКА И КВИЗ -->
-        <div id="step-6" class="step hidden">
-            <h2 class="text-xl font-bold mb-4 text-pink-600">Стучимся... Открываем видео-открытку</h2>
-            <!-- Тут может быть ваше видео с YouTube, Vimeo или просто красивая гифка -->
-            <div class="aspect-video w-full mb-6 bg-gray-100 rounded-xl overflow-hidden shadow-inner flex items-center justify-center">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Happy Birthday Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- ШАГ 7: ВИДЕО И КВИЗ -->
+        <div id="step-7" class="step hidden">
+            <h2 class="text-xl font-bold mb-4 text-rose-600">Открываем дверь в новый мир...</h2>
+            <!-- Тут может быть ссылка на ваше видеопоздравление -->
+            <div class="aspect-video w-full mb-6 bg-stone-100 rounded-xl overflow-hidden shadow-inner flex items-center justify-center">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Поздравление" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
-            <div class="border-t pt-4">
-                <h3 class="font-bold text-gray-700 mb-2">Мини-тест: Насколько хорошо ты меня знаешь?</h3>
-                <p class="text-sm text-gray-500 mb-4">Какой фильм мы готовы пересматривать бесконечно?</p>
+            <div class="border-t border-stone-100 pt-4">
+                <h3 class="font-bold text-stone-700 text-sm mb-2">Шуточный детектор правды: насколько хорошо ты меня знаешь?</h3>
+                <p class="text-xs text-stone-500 mb-4">Какой напиток я чаще всего выбираю при наших встречах?</p>
                 <div class="space-y-2">
-                    <button onclick="checkAnswer(this, false)" class="w-full py-2 bg-gray-50 text-gray-700 rounded-lg text-sm border hover:bg-gray-100 transition">Один Дома</button>
-                    <button onclick="checkAnswer(this, true)" class="w-full py-2 bg-gray-50 text-gray-700 rounded-lg text-sm border hover:bg-gray-100 transition">Тот самый наш фильм 💖</button>
-                    <button onclick="checkAnswer(this, false)" class="w-full py-2 bg-gray-50 text-gray-700 rounded-lg text-sm border hover:bg-gray-100 transition">Гарри Поттер</button>
+                    <button onclick="checkAnswer(this, false)" class="w-full py-2 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition">Просто воду</button>
+                    <button onclick="checkAnswer(this, true)" class="w-full py-2 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition">Тот самый кофе / чай, который мы обсуждали ☕</button>
+                    <button onclick="checkAnswer(this, false)" class="w-full py-2 bg-stone-50 text-stone-700 rounded-lg text-xs border border-stone-200 hover:bg-stone-100 transition">Газировку</button>
                 </div>
             </div>
-            <button onclick="nextStep(7)" class="mt-6 py-3 px-6 bg-pink-500 text-white rounded-xl font-bold hover:bg-pink-600 transition">Куда отправимся праздновать? ➔</button>
+            <button onclick="nextStep(8)" class="mt-6 w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Перейти к финалу ✨</button>
         </div>
 
-        <!-- ШАГ 7: ФИНАЛ (ОПРОСНИК) -->
-        <div id="step-7" class="step hidden">
-            <h2 class="text-2xl font-bold mb-2 text-pink-600">План на праздник! 🗺️</h2>
-            <p class="text-gray-500 text-sm mb-6">Выбери, как мы проведем это время</p>
+        <!-- ШАГ 8: ОПРОСНИК (ФИНАЛ) -->
+        <div id="step-8" class="step hidden">
+            <h2 class="text-2xl font-bold mb-2 text-rose-600">Давай отпразднуем? 🗺️</h2>
+            <p class="text-stone-500 text-xs mb-6">Я бы очень хотел пригласить тебя провести этот праздничный день вместе. Выбери вариант, который тебе по душе:</p>
             
             <form id="celebration-form" onsubmit="sendToWhatsApp(event)" class="space-y-4 text-left">
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Сценарий дня:</label>
-                    <select id="option" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400">
-                        <option>Романтический ужин при свечах 🕯️</option>
-                        <option>Уютный загородный пикник 🪵</option>
-                        <option>Мини-путешествие в новый город 🚗</option>
-                        <option>Секретный сценарий (сообщу при встрече) 🤫</option>
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Где бы ты хотела провести время?</label>
+                    <select id="option" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
+                        <option>Приятный ужин в уютном заведении 🍽️</option>
+                        <option>Небольшая прогулка-сюрприз по красивым местам 🏞️</option>
+                        <option>Поход в кино или на интересное событие 🍿</option>
+                        <option>Твой собственный сценарий (расскажешь мне) 🤫</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Время встречи:</label>
-                    <input type="time" id="time" value="18:00" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400">
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Удобное время встречи (в формате 24ч):</label>
+                    <input type="time" id="time" value="18:30" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Особые пожелания или капризы:</label>
-                    <textarea id="notes" placeholder="Хочу много цветов, мороженое..." rows="2" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+                    <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">Пожелания, предпочтения по кухне или капризы:</label>
+                    <textarea id="notes" placeholder="Например: хочу сладкое, или предпочтения по цветам..." rows="2" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-300"></textarea>
                 </div>
-                <button type="submit" class="w-full py-3 bg-pink-500 text-white rounded-xl font-bold hover:bg-pink-600 transition shadow-md">Отправить любимому! 💌</button>
+                <button type="submit" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Поделиться планами на вечер! 💌</button>
             </form>
         </div>
 
@@ -163,25 +185,17 @@
             document.getElementById(`step-${stepNum}`).classList.remove('hidden');
             currentStep = stepNum;
 
-            if (stepNum === 7) {
-                // Запуск праздничного салюта/конфетти на финальном шаге
+            if (stepNum === 8) {
                 confetti({
-                    particleCount: 150,
-                    spread: 80,
+                    particleCount: 120,
+                    spread: 70,
                     origin: { y: 0.6 }
                 });
             }
         }
 
-        // Запуск музыки
-        function startMusic() {
-            const music = document.getElementById('bg-music');
-            music.play().catch(e => console.log("Музыка ожидает взаимодействия пользователя."));
-        }
-
-        // Клик на сердце и анимация загрузки
+        // Анимация загрузки при нажатии на цветок
         document.getElementById('heart-icon').addEventListener('click', function() {
-            startMusic();
             this.classList.add('hidden');
             document.getElementById('progress-container').classList.remove('hidden');
             document.getElementById('progress-text').classList.remove('hidden');
@@ -199,15 +213,16 @@
                     clearInterval(interval);
                     setTimeout(() => {
                         nextStep(2);
-                    }, 500);
+                    }, 400);
                 }
-            }, 40);
+            }, 30);
         });
 
         // Эффект печатной машинки
         function startTypewriter() {
-            nextStep(4);
-            const text = "С днем рождения, моя самая невероятная девочка! Сегодня тебе 22. Это прекрасный возраст открытий, легкости и вдохновения. Я безумно счастлив быть рядом и видеть, как ты расцветаешь. Пусть этот день станет началом самого счастливого года в твоей жизни. Люблю тебя безумно! ❤️";
+            nextStep(5);
+            // Романтичный, но уважительный текст
+            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я очень рад, что мы общаемся, и мне безумно дорого то время, которое мы проводим вместе. Пусть этот год исполнит твои сокровенные мечты, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
             const container = document.getElementById('typewriter');
             let index = 0;
             container.innerHTML = '';
@@ -216,69 +231,69 @@
                 if (index < text.length) {
                     container.innerHTML += text.charAt(index);
                     index++;
-                    setTimeout(type, 40); // Скорость печати
+                    setTimeout(type, 35);
                 } else {
                     document.getElementById('after-typewriter-btn').classList.remove('hidden');
                 }
             }
-            setTimeout(type, 500);
+            setTimeout(type, 300);
         }
 
         // Магический шар
         function askMagicBall() {
             const predictions = [
-                "Путешествие, о котором ты так долго мечтала! ✈️",
-                "Множество моментов, от которых захватит дух! ✨",
-                "Творческие успехи и признание твоих талантов! 🎨",
-                "Уютные вечера, согретые нашей любовью! ☕"
+                "Уютные встречи и очень много искреннего смеха! ✨",
+                "Событие, которое приятно удивит тебя в самый неожиданный момент! 🎁",
+                "Успешное достижение твоих планов и новых вершин! 🏔️",
+                "Много тепла, внимания и поддержки от близких людей! 🤗"
             ];
             const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
             const resultDiv = document.getElementById('ball-result');
             resultDiv.innerText = "Шар думает...";
             setTimeout(() => {
                 resultDiv.innerText = randomPrediction;
-                confetti({ particleCount: 30, spread: 40 });
-            }, 1000);
+                confetti({ particleCount: 30, spread: 45 });
+            }, 800);
         }
 
-        // Лопнуть пузырек
+        // Клик на пузырек-комплимент
         function popBubble(btn, text) {
-            btn.style.transform = 'scale(0.8)';
-            btn.style.opacity = '0.5';
+            btn.style.transform = 'scale(0.9)';
+            btn.style.opacity = '0.6';
             btn.disabled = true;
             alert(`✨ ${text}`);
         }
 
-        // Проверка ответа в тесте
+        // Квиз
         function checkAnswer(btn, isCorrect) {
             if (isCorrect) {
-                btn.classList.remove('bg-gray-50');
-                btn.classList.add('bg-green-100', 'border-green-400', 'text-green-800');
-                confetti({ particleCount: 50 });
-                alert("Да! Мы определенно на одной волне 🥰");
+                btn.classList.remove('bg-stone-50');
+                btn.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-700');
+                confetti({ particleCount: 40 });
+                alert("Точно! Рад, что ты помнишь такие детали 😊");
             } else {
-                btn.classList.remove('bg-gray-50');
-                btn.classList.add('bg-red-100', 'border-red-400', 'text-red-800');
-                alert("Хм, почти, попробуй другой вариант 😉");
+                btn.classList.remove('bg-stone-50');
+                btn.classList.add('bg-stone-100', 'border-stone-300', 'text-stone-500');
+                alert("Хм, почти угадала, но правильный вариант чуть интереснее 😉");
             }
         }
 
-        // Отправка результатов на ваш WhatsApp
+        // Отправка в WhatsApp
         function sendToWhatsApp(event) {
             event.preventDefault();
             
-            // ВСТАВЬТЕ СЮДА СВОЙ НОМЕР ТЕЛЕФОНА (без плюса, например: 77071234567 для Казахстана)
-            const myPhoneNumber = "77769951539"; 
+            // ВСТАВЬТЕ СВОЙ НОМЕР СЮДА (без знака плюс, например: 77071234567 для Казахстана)
+            const myPhoneNumber = "77071234567"; 
 
             const option = document.getElementById('option').value;
             const time = document.getElementById('time').value;
             const notes = document.getElementById('notes').value;
 
-            const text = `Привет! Я прошла праздничный квест! 🎉\n\n` + 
-                         `Вот мой выбор на сегодня:\n` +
-                         `📍 План: ${option}\n` +
-                         `⏰ Время: ${time}\n` +
-                         `💭 Пожелания: ${notes || 'Все супер!'}`;
+            const text = `Привет! Прошла твой квест на день рождения ✨\n\n` + 
+                         `Вот что мне больше по душе:\n` +
+                         `📍 Формат встречи: ${option}\n` +
+                         `⏰ Время встречи: ${time}\n` +
+                         `💭 Мои пожелания: ${notes || 'Особых нет, главное — встретиться!'}`;
 
             const encodedText = encodeURIComponent(text);
             const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${encodedText}`;
