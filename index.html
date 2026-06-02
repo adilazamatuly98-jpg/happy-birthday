@@ -122,7 +122,7 @@
                             ↺ С начала
                         </button>
                     </div>
-                    <audio id="audio-1" class="w-full h-8" controls src="Rusty - Хочу быть рядом.mp3"></audio>
+                    <audio id="audio-1" class="w-full h-8" controls src="track1.mp3"></audio>
                 </div>
 
                 <!-- Трек 2: Женя Трофимов feat. Комната культуры - Привет -->
@@ -136,7 +136,7 @@
                             ↺ С начала
                         </button>
                     </div>
-                    <audio id="audio-2" class="w-full h-8" controls src="Женя Трофимов feat. Комната культуры - Привет.mp3"></audio>
+                    <audio id="audio-2" class="w-full h-8" controls src="track2.mp3"></audio>
                 </div>
 
                 <!-- Трек 3: Матвей Князев & Виктория Копылова - Космосом -->
@@ -150,7 +150,7 @@
                             ↺ С начала
                         </button>
                     </div>
-                    <audio id="audio-3" class="w-full h-8" controls src="Матвей Князев & Виктория Копылова - Космосом.mp3"></audio>
+                    <audio id="audio-3" class="w-full h-8" controls src="track3.mp3"></audio>
                 </div>
 
                 <!-- Трек 4: Фарик Назарбаев - О ней -->
@@ -164,7 +164,7 @@
                             ↺ С начала
                         </button>
                     </div>
-                    <audio id="audio-4" class="w-full h-8" controls src="Фарик Назарбаев - О ней.mp3"></audio>
+                    <audio id="audio-4" class="w-full h-8" controls src="track4.mp3"></audio>
                 </div>
 
                 <!-- Трек 5: Звонкий - Голоса -->
@@ -178,7 +178,7 @@
                             ↺ С начала
                         </button>
                     </div>
-                    <audio id="audio-5" class="w-full h-8" controls src="Звонкий - Голоса.mp3"></audio>
+                    <audio id="audio-5" class="w-full h-8" controls src="track5.mp3"></audio>
                 </div>
 
             </div>
@@ -246,13 +246,22 @@
             <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Продолжить путь ➔</button>
         </div>
 
-        <!-- ШАГ 7: ВИДЕО И КВИЗ -->
+        <!-- ШАГ 7: ВИДЕО И КВИЗ (С ПРИНУДИТЕЛЬНЫМ КОРРЕКТНЫМ АВТОЗАПУСКОМ) -->
         <div id="step-7" class="step hidden">
             <h2 class="text-xl font-bold mb-4 text-rose-600">Открываем дверь в новый мир...</h2>
-            <!-- Интерактивный HTML5 плеер для видео -->
-            <div class="aspect-video w-full mb-6 bg-stone-100 rounded-xl overflow-hidden shadow-md flex items-center justify-center">
-                <video id="birthday-video" class="w-full h-full object-cover" controls src="аладин.mp4"></video>
+            
+            <!-- Интерактивный HTML5 плеер с playsinline и автозапуском без звука -->
+            <div class="aspect-video w-full mb-2 bg-stone-100 rounded-xl overflow-hidden shadow-md flex items-center justify-center relative">
+                <video id="birthday-video" class="w-full h-full object-cover" controls playsinline preload="auto">
+                    <source src="video.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает встроенное видео.
+                </video>
             </div>
+            
+            <!-- Специальная кнопка управления звуком на случай блокировки браузера -->
+            <button id="unmute-btn" onclick="toggleMute()" class="w-full mb-6 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5">
+                🔇 Включить звук
+            </button>
 
             <div class="border-t border-stone-100 pt-4">
                 <h3 class="font-bold text-stone-700 text-sm mb-2">Шуточный детектор правды: насколько хорошо ты меня знаешь?</h3>
@@ -333,9 +342,15 @@
             // ЕСЛИ переходим на шаг с видеороликом (Шаг 7), запускаем его автоматически
             if (stepNum === 7) {
                 if (video) {
+                    video.muted = true; // Запускаем строго без звука во избежание блокировок браузером
                     video.currentTime = 0; // Начинаем сначала
+                    
+                    // Обновляем состояние кнопки
+                    const unmuteBtn = document.getElementById('unmute-btn');
+                    if (unmuteBtn) unmuteBtn.innerHTML = '🔇 Включить звук';
+
                     video.play().catch(err => {
-                        console.log("Автозапуск заблокирован браузером или видеофайл не найден. Включите его вручную на плеере:", err);
+                        console.log("Автозапуск заблокирован или видео не найдено:", err);
                     });
                 }
             }
@@ -346,6 +361,20 @@
                     spread: 70,
                     origin: { y: 0.6 }
                 });
+            }
+        }
+
+        // ВКЛЮЧЕНИЕ/ВЫКЛЮЧЕНИЕ ЗВУКА НА ВИДЕО
+        function toggleMute() {
+            const video = document.getElementById('birthday-video');
+            const btn = document.getElementById('unmute-btn');
+            if (video && btn) {
+                video.muted = !video.muted;
+                if (video.muted) {
+                    btn.innerHTML = '🔇 Включить звук';
+                } else {
+                    btn.innerHTML = '🔊 Выключить звук';
+                }
             }
         }
 
@@ -399,8 +428,7 @@
         // Эффект печатной машинки
         function startTypewriter() {
             nextStep(5);
-            // Измененный, бережный текст без упоминания "проводим время вместе"
-            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я безумно рад нашему теплому общению, твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром. Пусть этот год исполнит твои самые сокровенные мечты, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
+            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я безумно рад нашему теплому общению, твоей искренности и той удивительной, вдохновляющей энергии, которой ты делишься с этим миром. Пусть этот день станет началом самого счастливого года в твоей жизни, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
             const container = document.getElementById('typewriter');
             let index = 0;
             container.innerHTML = '';
@@ -498,7 +526,7 @@
         function sendToWhatsApp(event) {
             event.preventDefault();
             
-            // Вставьте свой номер телефона (без плюса, например 77071234567 для Казахстана)
+            // Замените этот номер на свой (без плюса, например 77071234567 для Казахстана)
             const myPhoneNumber = "77071234567"; 
 
             const dayChoice = document.getElementById('day-choice').value;
