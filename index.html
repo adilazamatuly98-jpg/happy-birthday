@@ -9,16 +9,53 @@
     <!-- Эффект конфетти -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        /* Плавное покачивание для шага 1 */
         @keyframes pulse-slow {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
         .pulse-heart { animation: pulse-slow 2.5s infinite; }
+
+        /* Вращение винила */
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         .spin-vinyl { animation: spin-slow 8s infinite linear; }
+
+        /* Физическая тряска шара */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-2px, -2px) rotate(-1deg); }
+            20% { transform: translate(-4px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 3px) rotate(0deg); }
+            40% { transform: translate(2px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 3px) rotate(-1deg); }
+            60% { transform: translate(-4px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 2px) rotate(-1deg); }
+            80% { transform: translate(-2px, -1px) rotate(1deg); }
+            90% { transform: translate(3px, 3px) rotate(0deg); }
+        }
+        .animate-shake { animation: shake 0.6s ease-in-out; }
+
+        /* Плавание пузырей по экрану */
+        @keyframes bubble-float-1 {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-12px) translateX(5px); }
+        }
+        @keyframes bubble-float-2 {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-8px) translateX(-6px); }
+        }
+        .float-bubble-1 { animation: bubble-float-1 4s infinite ease-in-out; }
+        .float-bubble-2 { animation: bubble-float-2 3.5s infinite ease-in-out; }
+
+        /* Появление комплиментов */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in { animation: fadeInScale 0.4s forwards ease-out; }
     </style>
 </head>
 <body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex items-center justify-center p-4">
@@ -58,9 +95,7 @@
             <h2 class="text-xl font-bold mb-2 text-rose-600">Музыка твоего момента 🎧</h2>
             <p class="text-stone-500 text-xs mb-6">Собрал небольшой плейлист, который ассоциируется у меня с тобой. Включи любой трек для настроения, пока читаешь дальше:</p>
             
-            <!-- Интерактивный плеер -->
             <div class="space-y-3 mb-6 text-left">
-                <!-- Трек 1 -->
                 <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex items-center justify-between">
                     <div>
                         <p class="text-xs font-bold text-stone-700">Особое настроение</p>
@@ -68,7 +103,6 @@
                     </div>
                     <audio class="w-40 h-8" controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
                 </div>
-                <!-- Трек 2 -->
                 <div class="bg-stone-50 p-3 rounded-xl border border-stone-100 flex items-center justify-between">
                     <div>
                         <p class="text-xs font-bold text-stone-700">Тёплый вечер</p>
@@ -86,12 +120,10 @@
             <h2 class="text-xl font-bold mb-4 text-rose-600">Как мир видит тебя VS Как вижу тебя я</h2>
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                    <!-- Ссылка на фото (замените на свою) -->
                     <img src="https://placehold.co/300x400/fecdd3/e11d48?text=Взгляд+мира" class="rounded-xl shadow-md w-full h-44 object-cover" alt="Мир">
                     <p class="text-[11px] text-stone-500 mt-2">Как видит тебя мир:<br><span class="font-semibold">Просто красивая девушка</span></p>
                 </div>
                 <div>
-                    <!-- Ссылка на фото (замените на свою) -->
                     <img src="https://placehold.co/300x400/ffe4e6/f43f5e?text=Мой+взгляд" class="rounded-xl shadow-md w-full h-44 object-cover" alt="Я">
                     <p class="text-[11px] text-rose-600 mt-2 font-semibold">Как вижу тебя я:<br><span>Мое вдохновение и главная загадка ✨</span></p>
                 </div>
@@ -106,31 +138,53 @@
             <button id="after-typewriter-btn" onclick="nextStep(6)" class="py-3 px-6 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition hidden">Посмотреть, что дальше ➔</button>
         </div>
 
-        <!-- ШАГ 6: МАГИЧЕСКИЙ ШАР И КОМПЛИМЕНТЫ -->
+        <!-- ШАГ 6: МАГИЧЕСКИЙ ШАР И КОМПЛИМЕНТЫ (ОБНОВЛЕННЫЙ, ДИНАМИЧЕСКИЙ) -->
         <div id="step-6" class="step hidden">
             <h2 class="text-2xl font-bold mb-2 text-rose-600">Что ждет тебя в твои 22?</h2>
             <p class="text-stone-500 text-xs mb-6">Нажми на шар предсказаний, чтобы заглянуть в будущее</p>
             
-            <div onclick="askMagicBall()" class="w-24 h-24 bg-stone-900 text-white rounded-full mx-auto flex items-center justify-center text-3xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-stone-800">
-                🔮
+            <!-- Интерактивный вибрирующий шар -->
+            <div id="magic-ball" onclick="askMagicBall()" class="w-24 h-24 rounded-full mx-auto flex items-center justify-center text-4xl cursor-pointer shadow-lg hover:scale-105 transition duration-300 mb-6 border-4 border-indigo-950 bg-gradient-to-tr from-indigo-950 via-purple-900 to-indigo-800 text-white relative">
+                <span class="relative z-10">🔮</span>
+                <!-- Световой пульсирующий контур вокруг шара -->
+                <div class="absolute inset-0 rounded-full bg-indigo-500 opacity-20 blur-md animate-pulse"></div>
             </div>
-            <div id="ball-result" class="text-rose-600 font-semibold mb-6 h-8 text-sm"></div>
-
-            <p class="text-stone-600 text-xs mb-3">Несколько вещей, которые меня в тебе восхищают (нажимай, чтобы открыть):</p>
-            <div class="flex flex-wrap justify-center gap-2 mb-8">
-                <button onclick="popBubble(this, 'Твой смех мгновенно поднимает мне настроение')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твой смех</button>
-                <button onclick="popBubble(this, 'Твой ум и то, как интересно ты рассуждаешь об этом мире')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твой разум</button>
-                <button onclick="popBubble(this, 'В тебе есть редкое сочетание нежности и сильного характера')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твой характер</button>
-                <button onclick="popBubble(this, 'Твоя искренность делает тебя особенной среди всех')" class="px-3 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold hover:bg-rose-100 transition">🌸 Твоя искренность</button>
+            
+            <!-- Контейнер для вывода предсказаний -->
+            <div id="ball-result" class="mb-8 min-h-[50px] flex items-center justify-center">
+                <p class="text-stone-400 text-xs italic">Шар ожидает твоего касания...</p>
             </div>
 
-            <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition">Продолжить ➔</button>
+            <p class="text-stone-600 text-xs font-semibold mb-2">Лопай парящие пузыри комплиментов! 🫧</p>
+            <p class="text-stone-400 text-[10px] mb-6">Каждый пузырь хранит твою суперсилу</p>
+            
+            <!-- Парящие пузыри комплиментов -->
+            <div class="flex justify-center gap-3 mb-6 relative min-h-[80px]">
+                <div onclick="popBubble(event, this, 'Твой смех мгновенно поднимает мне настроение и меняет день вокруг 🌸')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-rose-100/70 border border-rose-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">
+                    🫧💖
+                </div>
+                <div onclick="popBubble(event, this, 'Твой выдающийся ум и то, как интересно ты рассуждаешь о вещах 🧠')" class="float-bubble-2 bubble cursor-pointer w-14 h-14 rounded-full bg-purple-100/70 border border-purple-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">
+                    🫧✨
+                </div>
+                <div onclick="popBubble(event, this, 'В тебе есть редкое сочетание нежности и удивительно сильного характера 💪')" class="float-bubble-1 bubble cursor-pointer w-14 h-14 rounded-full bg-pink-100/70 border border-pink-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">
+                    🫧🦄
+                </div>
+                <div onclick="popBubble(event, this, 'Твоя искренность делает тебя абсолютно уникальной среди всех остальных 🌟')" class="float-bubble-2 bubble cursor-pointer w-14 h-14 rounded-full bg-amber-100/70 border border-amber-200 shadow-md flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition">
+                    🫧🌸
+                </div>
+            </div>
+
+            <!-- Контейнер, куда будут сыпаться открытые комплименты на самом экране -->
+            <div id="compliment-display" class="hidden text-left space-y-2 mb-8 max-h-[150px] overflow-y-auto p-2 bg-stone-50 rounded-2xl border border-stone-100">
+                <!-- Сюда JS будет динамически добавлять текст открытых комплиментов -->
+            </div>
+
+            <button onclick="nextStep(7)" class="w-full py-3 bg-rose-500 text-white rounded-xl font-bold hover:bg-rose-600 transition shadow-md">Продолжить путь ➔</button>
         </div>
 
         <!-- ШАГ 7: ВИДЕО И КВИЗ -->
         <div id="step-7" class="step hidden">
             <h2 class="text-xl font-bold mb-4 text-rose-600">Открываем дверь в новый мир...</h2>
-            <!-- Тут может быть ссылка на ваше видеопоздравление -->
             <div class="aspect-video w-full mb-6 bg-stone-100 rounded-xl overflow-hidden shadow-inner flex items-center justify-center">
                 <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Поздравление" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
@@ -221,8 +275,7 @@
         // Эффект печатной машинки
         function startTypewriter() {
             nextStep(5);
-            // Романтичный, но уважительный текст
-            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я очень рад, что мы общаемся, и мне безумно дорого то время, которое мы проводим вместе. Пусть этот год исполнит твои сокровенные мечты, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
+            const text = "С днем рождения! Хочу искренне пожелать тебе, чтобы твои 22 года принесли массу ярких эмоций, уверенности в своих силах и гармонии. Ты удивительный человек. Твоя улыбка, твой ум и то, как ты держишь себя — всё это по-настоящему меня восхищает. Я очень рад, что мы общаемся, и мне безумно дорого то время, которое мы проводим вместе. Пусть этот день станет началом самого счастливого года в твоей жизни, а я буду очень рад оказаться тем, кто поддержит тебя в этом пути...";
             const container = document.getElementById('typewriter');
             let index = 0;
             container.innerHTML = '';
@@ -239,29 +292,75 @@
             setTimeout(type, 300);
         }
 
-        // Магический шар
+        // ДИНАМИЧЕСКИЙ МАГИЧЕСКИЙ ШАР (ВИБРАЦИЯ + СТРЕЛЬБА КОНФЕТТИ)
         function askMagicBall() {
-            const predictions = [
-                "Уютные встречи и очень много искреннего смеха! ✨",
-                "Событие, которое приятно удивит тебя в самый неожиданный момент! 🎁",
-                "Успешное достижение твоих планов и новых вершин! 🏔️",
-                "Много тепла, внимания и поддержки от близких людей! 🤗"
-            ];
-            const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
+            const ball = document.getElementById('magic-ball');
             const resultDiv = document.getElementById('ball-result');
-            resultDiv.innerText = "Шар думает...";
+            
+            // Запуск анимации тряски
+            ball.classList.add('animate-shake');
+            resultDiv.innerHTML = `<p class="text-indigo-400 text-xs animate-pulse">Шар считывает твою энергетику... ⚡</p>`;
+            
             setTimeout(() => {
-                resultDiv.innerText = randomPrediction;
-                confetti({ particleCount: 30, spread: 45 });
+                ball.classList.remove('animate-shake');
+                const predictions = [
+                    "Тебя ждут уютные встречи и очень много искреннего смеха! ✨",
+                    "Событие, которое безумно тебя удивит в самый неожиданный момент! 🎁",
+                    "Успешное достижение твоих главных целей и новых вершин! 🏔️",
+                    "Много тепла, внимания и поддержки от близких людей! 🤗"
+                ];
+                const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
+                
+                // Вывод результата в красивой плашке с анимацией прыжка
+                resultDiv.innerHTML = `
+                    <div class="bg-indigo-50 text-indigo-950 border border-indigo-100 rounded-2xl p-3 text-xs font-semibold animate-bounce shadow-inner w-full">
+                        ${randomPrediction}
+                    </div>
+                `;
+                
+                // Небольшой салют конфетти по центру
+                confetti({
+                    particleCount: 20,
+                    angle: 90,
+                    spread: 40,
+                    origin: { y: 0.6 }
+                });
             }, 800);
         }
 
-        // Клик на пузырек-комплимент
-        function popBubble(btn, text) {
-            btn.style.transform = 'scale(0.9)';
-            btn.style.opacity = '0.6';
-            btn.disabled = true;
-            alert(`✨ ${text}`);
+        // ЛОПАНИЕ ПУЗЫРЯ (ФИЗИКА И ВЗРЫВ КОНФЕТТИ НА МЕСТЕ КЛИКА)
+        function popBubble(event, element, complimentText) {
+            // Вычисляем координаты клика мыши относительно всего экрана для взрыва конфетти
+            const x = event.clientX / window.innerWidth;
+            const y = event.clientY / window.innerHeight;
+            
+            // Взрыв конфетти точно в месте лопания пузыря
+            confetti({
+                particleCount: 25,
+                spread: 40,
+                origin: { x: x, y: y },
+                colors: ['#f43f5e', '#fda4af', '#fecdd3', '#c084fc']
+            });
+
+            // Эффект расширения и растворения (схлопывание пузыря)
+            element.classList.add('scale-150', 'opacity-0');
+            element.style.pointerEvents = 'none'; // Отключаем повторные клики
+
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 300);
+
+            // Плавное добавление комплимента в контейнер на экране
+            const displayCard = document.getElementById('compliment-display');
+            displayCard.classList.remove('hidden');
+            
+            const newMsg = document.createElement('div');
+            newMsg.className = "bg-rose-50 border border-rose-100 text-rose-700 text-[11px] p-2.5 rounded-xl mb-1.5 animate-fade-in font-medium shadow-sm flex items-center gap-1.5";
+            newMsg.innerHTML = `<span>✨</span> <span>${complimentText}</span>`;
+            displayCard.appendChild(newMsg);
+            
+            // Автоматическая прокрутка контейнера вниз при получении новых комплиментов
+            displayCard.scrollTop = displayCard.scrollHeight;
         }
 
         // Квиз
@@ -282,7 +381,7 @@
         function sendToWhatsApp(event) {
             event.preventDefault();
             
-            // ВСТАВЬТЕ СВОЙ НОМЕР СЮДА (без знака плюс, например: 77071234567 для Казахстана)
+            // Ваш номер (без плюса)
             const myPhoneNumber = "77071234567"; 
 
             const option = document.getElementById('option').value;
